@@ -13,7 +13,7 @@ class AuthTestCases(BaseTestCase):
         response = self.client.get('/api/v1/auth/register',
                                    data=self.user_data,
                                    content_type='application/json')
-        res = json.loads(response.data.decode())
+        res = json.loads(response.data.decode()).get("Data")
 
         self.assertTrue(isinstance(res, list),
                         msg="Fails to return user records as list")
@@ -58,6 +58,20 @@ class AuthTestCases(BaseTestCase):
         self.assertTrue(response.status_code == 409,
                         msg="Fails. Registers user with existing username")
 
+    def test_register_with_invalid_password(self):
+        user_data = json.dumps(dict(
+            username="Domesticable Cow",
+            email="cow@mammals.milkable",
+            password="pass"))
+
+        response = self.client.post('/api/v1/auth/register',
+                                    data=user_data,
+                                    content_type='application/json')
+
+        self.assertTrue(response.status_code == 400,
+                        msg="Fails. Registers user with password\
+                        of length less than six characters")
+
     def test_send_request_with_invalid_json(self):
         response = self.client.post('/api/v1/auth/register',
                                     data=self.user_data,
@@ -69,19 +83,6 @@ class AuthTestCases(BaseTestCase):
         #                 msg="Fails to validate json headers")
 
         self.assertEqual(response.status_code, 400)
-
-    def test_get_users_records_are_instances(self):
-        # Unneccessary
-        response = self.client.get('/api/v1/auth/register',
-                                   data=self.user_data,
-                                   content_type='application/json')
-        res = json.loads(response.data.decode())
-
-        # Instances converted  to dict
-        self.assertEqual(res[0].get('username'), (res[0]['username']),
-                         msg="Fails to store user records as instances")
-
-        self.assertEqual(response.status_code, 200)
 
     def test_login_registered_user(self):
         response = self.client.post('/api/v1/auth/login',
