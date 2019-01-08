@@ -7,6 +7,8 @@ class BaseConfig:
     SECRET_KEY = os.environ.get('SECRET_KEY')
     CSRF_ENABLED = True
     BUNDLE_ERRORS = True
+    JWT_BLACKLIST_ENABLED = True
+    JWT_BLACKLIST_TOKEN_CHECKS = ['access']
     JWT_SECRET_KET = os.environ.get('JWT_SECRET_KEY')
 
 
