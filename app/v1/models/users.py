@@ -21,7 +21,7 @@ class UserModel(AbstractModel):
         self.username = kwargs['username']
         self.isAdmin = kwargs.get('isAdmin', False)
 
-        self.password = 'password'
+        self.password = kwargs['password']
 
     @property
     def password(self):
