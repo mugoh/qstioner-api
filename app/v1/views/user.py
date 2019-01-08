@@ -91,5 +91,5 @@ class UserLogin(Resource):
 
         return {
             "Status": 201,
-            "Message": f"Logged in as {get_jwt_identity()}"
+            "Message": f"Logged in as {args['username']}"
         }, 201
