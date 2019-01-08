@@ -53,3 +53,22 @@ class UserModel(AbstractModel):
         user = [user for user in users
                 if getattr(user, 'email') == given_email]
         return user if user else None
+
+    @classmethod
+    def get_all_users(cls):
+        return [user.dictify() for user in users]
+
+    def dictify(self):
+        """return {
+            "Firstname": self.firstname,
+            "Lastname": self.lastname,
+            "Othername": self.othername,
+            "Email": self.email,
+            "Phonenumber": self.phonenumber,
+            "Username": self.username,
+            "isAdmin": self.isAdmin,
+            "password": self.password
+            "registred": self.created_at
+        }
+        """
+        return self.__dict__
