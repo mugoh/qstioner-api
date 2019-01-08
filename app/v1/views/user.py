@@ -108,4 +108,4 @@ class UserLogout(Resource):
         return {
             "Status": "Success",
             "Message": f"Logout {get_jwt_identity()}"
-        }
+        }, 201

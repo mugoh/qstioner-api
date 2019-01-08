@@ -25,7 +25,7 @@ class AuthTestCases(BaseTestCase):
         response = self.client.post('/api/v1/auth/register',
                                     data=self.user_data,
                                     content_type='application/json')
-        res = json.loads(response.data.decode())
+        res = json.loads(response.data.decode()).get('Message')
 
         res_msg = "Account exists. Maybe log in?"
         self.assertEqual(res,
