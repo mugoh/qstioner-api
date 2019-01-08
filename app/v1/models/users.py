@@ -67,10 +67,12 @@ class UserModel(AbstractModel):
             "Phonenumber": self.phonenumber,
             "Username": self.username,
             "isAdmin": self.isAdmin,
-            "password": self.password
-            "registred": self.created_at
+            "password": self.password,
+            "registered": self.created_at,
+            "id": self.id
         }
         """
+
         return self.__dict__
 
     def __repr__(self):
