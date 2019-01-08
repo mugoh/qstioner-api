@@ -9,7 +9,10 @@ from app.v1.models.users import UserModel
 from utils import verify_pass
 
 
-class UsersList(Resource):
+class UsersRegistration(Resource):
+    """
+        This resource allows a user to create a new account.
+    """
 
     def post(self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
@@ -40,6 +43,12 @@ class UsersList(Resource):
         user = UserModel(**args).save()
 
         return {
-            "Status": "201",
+            "Status": 201,
             "Data": user.dictify()
         }
+
+        def get(self):
+            return {
+                "Status": 200,
+                "Data": UserModel.get_all_users()
+            }
