@@ -46,13 +46,13 @@ class UserModel(AbstractModel):
         found_user = [user for user in users
                       if getattr(user, 'username') == username]
 
-        return found_user if found_user else None
+        return found_user[0] if found_user else None
 
     @classmethod
     def get_by_email(cls, given_email):
         user = [user for user in users
                 if getattr(user, 'email') == given_email]
-        return user if user else None
+        return user[0] if user else None
 
     @classmethod
     def get_all_users(cls):
