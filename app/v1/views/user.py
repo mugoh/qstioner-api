@@ -93,3 +93,8 @@ class UserLogin(Resource):
             "Status": 201,
             "Message": f"Logged in as {args['username']}"
         }, 201
+
+
+class UserLogout(Resource):
+
+    def delete(self):
