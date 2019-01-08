@@ -72,3 +72,6 @@ class UserModel(AbstractModel):
         }
         """
         return self.__dict__
+
+    def __repr__(self):
+        return '{email} {username}'.format(**self.dictify())
