@@ -3,7 +3,7 @@
 """
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from abstract_model import AbstractModel
+from app.v1.models.abstract_model import AbstractModel
 
 users = []  # Persists user objects
 
@@ -59,7 +59,8 @@ class UserModel(AbstractModel):
         return [user.dictify() for user in users]
 
     def dictify(self):
-        """return {
+
+        return {
             "Firstname": self.firstname,
             "Lastname": self.lastname,
             "Othername": self.othername,
@@ -71,9 +72,8 @@ class UserModel(AbstractModel):
             "registered": self.created_at,
             "id": self.id
         }
-        """
 
-        return self.__dict__
+      # return self.__dict__
 
     def __repr__(self):
         return '{email} {username}'.format(**self.dictify())
