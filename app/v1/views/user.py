@@ -22,7 +22,8 @@ class UsersRegistration(Resource):
         parser.add_argument('lastname', type=str)
         parser.add_argument('othername', type=str)
         parser.add_argument('email', type=inputs.regex(
-            r"[^@\s]+@[^@\s]+\.[a-zA-Z0-9]+$"), required=True)
+            r"[^@\s]+@[^@\s]+\.[a-zA-Z0-9]+$"), required=True,
+            help="Oopsy! Email format not invented yet")
         parser.add_argument('phonenumber', type=int)
         parser.add_argument('username', type=str)
         parser.add_argument('isAdmin', type=bool, default=False)
@@ -56,3 +57,14 @@ class UsersRegistration(Resource):
             "Status": 200,
             "Data": UserModel.get_all_users()
         }
+
+
+class UserLogin(Resource):
+
+    def post(self):
+        parser = reqparse.RequestParser(trim=True, bundle_errors=True)
+
+        parser.add_argument('email', type=inputs.regex(
+            r"[^@\s]+@[^@\s]+\.[a-zA-Z0-9]+$"), required=True,
+            help="Please provide a valid email. Cool?")
+        parser.add_argument('password', type=str, required=True)
