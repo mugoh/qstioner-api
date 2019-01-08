@@ -10,6 +10,8 @@ import random
 from app.v1.models.users import UserModel
 from app.v1.utils.helpers import verify_pass
 
+blacklisted_tokens = set()
+
 
 class UsersRegistration(Resource):
     """
@@ -91,12 +93,14 @@ class UserLogin(Resource):
 
         return {
             "Status": 201,
-            "Message": f"Logged in as {args['username']}"
+            "Data": [{"Message": f"Logged in as {args['username']}",
+                      "token": user_token}]
         }, 201
 
 
 class UserLogout(Resource):
 
+    @jwt_required
     def delete(self):
         jti = get_raw_jwt()['jti']
 
