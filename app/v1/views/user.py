@@ -68,3 +68,28 @@ class UserLogin(Resource):
             r"[^@\s]+@[^@\s]+\.[a-zA-Z0-9]+$"), required=True,
             help="Please provide a valid email. Cool?")
         parser.add_argument('password', type=str, required=True)
+        parser.add_argument('username', type=str)
+
+        args = parser.parse_args(strict=True)
+
+        user = UserModel.get_by_email(args.get('email'))
+
+        if not user:
+            return {
+                "Status": 400,
+                "Message": "Account unknown. Maybe register?"
+            }, 400
+
+        elif not user.check_password(args.get('password')):
+            return {
+                "Status": 400,
+                "Message": "Incorrect password.\
+                        Please give me the right thing, okay?"
+            }, 400
+
+        user_token = create_access_token(identity=user.username)
+
+        return {
+            "Status": 201,
+            "Message": f"Logged in as {get_jwt_identity()}"
+        }, 201
