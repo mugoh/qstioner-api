@@ -6,7 +6,7 @@ from flask_restful import Resource, reqparse, inputs
 import random
 
 from app.v1.models.users import UserModel
-from utils import verify_pass
+from app.v1.utils import verify_pass
 
 
 class UsersRegistration(Resource):
