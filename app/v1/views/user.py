@@ -44,7 +44,7 @@ class UsersRegistration(Resource):
                 "Status": 409,
                 "Message": "Oopsy! username exists.Try " +
                 args.get('username') + str(random.randint(0, 40))
-            }
+            }, 409
 
         user = UserModel(**args)
         user.save()
