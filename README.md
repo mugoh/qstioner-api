@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.org/hogum/qstioner-api.png?branch=develop)](https://travis-ci.org/hogum/qstioner-api)[![Coverage Status](https://coveralls.io/repos/github/hogum/qstioner-api/badge.svg?branch=ch-ci-badges-163075084)](https://coveralls.io/github/hogum/qstioner-api?branch=ch-ci-badges-163075084)
+[![Build Status](https://travis-ci.org/hogum/qstioner-api.png?branch=develop)](https://travis-ci.org/hogum/qstioner-api) [![Coverage Status](https://coveralls.io/repos/github/hogum/qstioner-api/badge.svg?branch=ch-ci-badges-163075084)](https://coveralls.io/github/hogum/qstioner-api?branch=ch-ci-badges-163075084)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/faa1bb2518cd81a3e91d)
