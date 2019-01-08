@@ -3,6 +3,10 @@
 """
 
 from flask_restful import Resource, reqparse, inputs
+import random
+
+from app.v1.models.users import UserModel
+from utils import verify_pass
 
 
 class UsersList(Resource):
@@ -17,6 +21,25 @@ class UsersList(Resource):
         parser.add_argument('phonenumber', type=int)
         parser.add_argument('username', type=str)
         parser.add_argument('isAdmin', type=bool, default=False)
-        parser.add_argument('password', required=True)
+        parser.add_argument('password', required=True, type=verify_pass)
 
         args = parser.parse_args(strict=True)
+
+        if UserModel.get_by_email(args['email']):
+            return {
+                "Status": 409,
+                "Message": "Account exists. Maybe log in?"
+            }, 409
+
+        if UserModel.get_by_name(args['name']):
+            return {
+                "Status": 409,
+                f"Message": "Oopsy! username exists.Try {random.randint(0, 40)}"
+            }
+
+        user = UserModel(**args).save()
+
+        return {
+            "Status": "201",
+            "Data": user.dictify()
+        }
