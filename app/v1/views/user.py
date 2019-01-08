@@ -3,6 +3,8 @@
 """
 
 from flask_restful import Resource, reqparse, inputs
+from flask_jwt_extended import (
+    jwt_required, create_access_token, get_jwt_identity)
 import random
 
 from app.v1.models.users import UserModel
@@ -20,7 +22,8 @@ class UsersRegistration(Resource):
         parser.add_argument('lastname', type=str)
         parser.add_argument('othername', type=str)
         parser.add_argument('email', type=inputs.regex(
-            r"[^@\s]+@[^@\s]+\.[a-zA-Z0-9]+$"), required=True)
+            r"[^@\s]+@[^@\s]+\.[a-zA-Z0-9]+$"), required=True,
+            help="Oopsy! Email format not invented yet")
         parser.add_argument('phonenumber', type=int)
         parser.add_argument('username', type=str)
         parser.add_argument('isAdmin', type=bool, default=False)
@@ -49,8 +52,44 @@ class UsersRegistration(Resource):
             "Data": user.dictify()
         }
 
-        def get(self):
+    def get(self):
+        return {
+            "Status": 200,
+            "Data": UserModel.get_all_users()
+        }
+
+
+class UserLogin(Resource):
+
+    def post(self):
+        parser = reqparse.RequestParser(trim=True, bundle_errors=True)
+
+        parser.add_argument('email', type=inputs.regex(
+            r"[^@\s]+@[^@\s]+\.[a-zA-Z0-9]+$"), required=True,
+            help="Please provide a valid email. Cool?")
+        parser.add_argument('password', type=str, required=True)
+        parser.add_argument('username', type=str)
+
+        args = parser.parse_args(strict=True)
+
+        user = UserModel.get_by_email(args.get('email'))
+
+        if not user:
             return {
-                "Status": 200,
-                "Data": UserModel.get_all_users()
-            }
+                "Status": 400,
+                "Message": "Account unknown. Maybe register?"
+            }, 400
+
+        elif not user.check_password(args.get('password')):
+            return {
+                "Status": 400,
+                "Message": "Incorrect password.\
+                        Please give me the right thing, okay?"
+            }, 400
+
+        user_token = create_access_token(identity=user.username)
+
+        return {
+            "Status": 201,
+            "Message": f"Logged in as {args['username']}"
+        }, 201
