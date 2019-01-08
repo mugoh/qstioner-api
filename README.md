@@ -102,6 +102,6 @@ PUT | `/api/v1/questions/question_id/comment/commentID` | Edit an comment
 DELETE | `/api/v1/questions/question_id/comment/commentID` | Delete an comment
 
 
-##### Owner
+##### Author
 
 [Mugoh](https://github.com/hogum)
