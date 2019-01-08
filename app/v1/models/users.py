@@ -34,3 +34,22 @@ class UserModel(AbstractModel):
     def check_password(self, pass_value):
 
         return check_password_hash(self._password, pass_value)
+
+    def save(self):
+        users.append(self)
+
+    #
+    # Search behaviours
+
+    @classmethod
+    def get_by_name(cls, username):
+        found_user = [user for user in users
+                      if getattr(user, 'username') == username]
+
+        return found_user if found_user else None
+
+    @classmethod
+    def get_by_email(cls, given_email):
+        user = [user for user in users
+                if getattr(user, 'email') == given_email]
+        return user if user else None
