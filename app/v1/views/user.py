@@ -44,7 +44,7 @@ class UsersRegistration(Resource):
                 "Status": 409,
                 "Message": "Oopsy! username exists.Try " +
                 args.get('username') + str(random.randint(0, 40))
-            }
+            }, 409
 
         user = UserModel(**args)
         user.save()
@@ -94,7 +94,8 @@ class UserLogin(Resource):
         return {
             "Status": 201,
             "Data": [{"Message": f"Logged in as {args['username']}",
-                      "token": user_token}]
+                      "token": user_token,
+                      "user": repr(user)}]
         }, 201
 
 
@@ -108,4 +109,4 @@ class UserLogout(Resource):
         return {
             "Status": "Success",
             "Message": f"Logout {get_jwt_identity()}"
-        }
+        }, 201
