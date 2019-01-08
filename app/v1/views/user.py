@@ -51,8 +51,8 @@ class UsersRegistration(Resource):
             "Data": user.dictify()
         }
 
-        def get(self):
-            return {
-                "Status": 200,
-                "Data": UserModel.get_all_users()
-            }
+    def get(self):
+        return {
+            "Status": 200,
+            "Data": UserModel.get_all_users()
+        }
