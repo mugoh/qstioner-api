@@ -4,11 +4,13 @@
 
 from flask_restful import Resource, reqparse, inputs
 from flask_jwt_extended import (
-    jwt_required, create_access_token, get_jwt_identity)
+    jwt_required, create_access_token, get_jwt_identity, get_raw_jwt)
 import random
 
 from app.v1.models.users import UserModel
 from app.v1.utils.helpers import verify_pass
+
+blacklisted_tokens = set()
 
 
 class UsersRegistration(Resource):
@@ -91,5 +93,19 @@ class UserLogin(Resource):
 
         return {
             "Status": 201,
-            "Message": f"Logged in as {args['username']}"
+            "Data": [{"Message": f"Logged in as {args['username']}",
+                      "token": user_token}]
         }, 201
+
+
+class UserLogout(Resource):
+
+    @jwt_required
+    def delete(self):
+        jti = get_raw_jwt()['jti']
+
+        blacklisted_tokens.add(jti)
+        return {
+            "Status": "Success",
+            "Message": f"Logout {get_jwt_identity()}"
+        }
