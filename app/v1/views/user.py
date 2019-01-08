@@ -4,7 +4,7 @@
 
 from flask_restful import Resource, reqparse, inputs
 from flask_jwt_extended import (
-    jwt_required, create_access_token, get_jwt_identity)
+    jwt_required, create_access_token, get_jwt_identity, get_raw_jwt)
 import random
 
 from app.v1.models.users import UserModel
@@ -98,3 +98,10 @@ class UserLogin(Resource):
 class UserLogout(Resource):
 
     def delete(self):
+        jti = get_raw_jwt()['jti']
+
+        blacklisted_tokens.add(jti)
+        return {
+            "Status": "Success",
+            "Message": f"Logout {get_jwt_identity()}"
+        }
