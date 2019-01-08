@@ -1,6 +1,7 @@
 """
     This file contains the model for users data.
 """
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from abstract_model import AbstractModel
 
@@ -21,3 +22,15 @@ class UserModel(AbstractModel):
         self.isAdmin = kwargs.get('isAdmin', False)
 
         self.password = kwargs['password']
+
+    @property
+    def password(self):
+        return '****'
+
+    @password.setter
+    def password(self, pswd):
+        self._password = generate_password_hash(pswd)
+
+    def check_password(self, pass_value):
+
+        return check_password_hash(self._password, pass_value)
