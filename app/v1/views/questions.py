@@ -28,7 +28,9 @@ class Questions(Resource):
         # Add user to question record
         user = UserModel.get_by_name(get_jwt_identity())
         if user:
-            args.update(user.id)
+            args.update({
+                "user": user.id
+            })
 
         new_questn = QuestionModel(**args)
 
