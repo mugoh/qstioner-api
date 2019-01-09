@@ -46,7 +46,20 @@ class Meetups(Resource):
 
 class MeetUp(Resource):
 
-    def get(self):
+    def get(self, meetup_id=None):
+
+        if id:
+            if not MeetUpModel.get_by_id(meetup_id):
+                response = {
+                    "Status": 404,
+                    "Error": "Meetup does not exists"
+                }
+            else:
+                response = {
+                    "Status": 200,
+                    "Data": [MeetUpModel.get_by_id(meetup_id)]
+                }
+            return response
 
         return {
             "Status": 200,
