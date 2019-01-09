@@ -8,9 +8,24 @@ class QuestionModel(AbstractModel):
         super().__init__(questions)
         self.title = kwargs['title']
         self.body = kwargs['body']
-        self.votes = kwargs['votes']
         self.meetup = kwargs['meetup']
         self.created_by = kwargs['created_by']
+
+        self.votes = 0
+
+    @property
+    def votes(self):
+        return self._votes
+
+    @votes.setter
+    def votes(self, value):
+        raise AttributeError("Oops! You are not allowed to do that")
+
+    def update_votes(self, add=True):
+        if not add:
+            self._votes -= 1
+        else:
+            self._votes += 1
 
     def save(self):
         """
