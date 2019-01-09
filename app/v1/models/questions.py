@@ -10,6 +10,7 @@ class QuestionModel(AbstractModel):
         self.body = kwargs['body']
         self.meetup = kwargs['meetup']
         self.created_by = kwargs['created_by']
+        self.user = kwargs.get('user')
 
         self.votes = 0
 
