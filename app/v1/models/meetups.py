@@ -67,7 +67,7 @@ class MeetUpModel(AbstractModel):
             same data
         """
         return any([meetup for meetup in meetups
-                    if meetup.dictify() == meetup_object.dictify()])
+                    if repr(meetup) == repr(meetup_object)])
 
     def __repr__(self):
-        return '{topic}'.format(**self.dictify())
+        return '{topic} {tags} {location}'.format(**self.dictify())
