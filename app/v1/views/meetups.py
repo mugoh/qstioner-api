@@ -25,4 +25,17 @@ class Meetups(Resource):
 
         # Ensure a meetup isn't created with same data twice
 
-        meetup = MeetUpModel(**args)
+        new_meetup = MeetUpModel(**args)
+
+        if MeetUpModel.verify_unique(new_meetup):
+            return {
+                "Status": 409,
+                "Message": "Relax, Meetup already created"
+            }, 409
+
+        new_meetup.save()
+
+        return {
+            "Status": 201,
+            "Data": [new_meetup.dictify()]
+        }
