@@ -42,3 +42,10 @@ class Meetups(Resource):
             "Status": 201,
             "Data": [new_meetup.dictify()]
         }
+
+    def get(self):
+
+        return {
+            "Status": 200,
+            "Data": [MeetUpModel.get_all_meetups()]
+        }
