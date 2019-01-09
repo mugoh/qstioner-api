@@ -43,6 +43,9 @@ class Meetups(Resource):
             "Data": [new_meetup.dictify()]
         }
 
+
+class MeetUp(Resource):
+
     def get(self):
 
         return {
