@@ -45,23 +45,32 @@ class Meetups(Resource):
 
 
 class MeetUp(Resource):
+    """
+        This resource fetches all existing meetup records
+    """
 
-    def get(self, meetup_id=None):
-
-        if id:
-            if not MeetUpModel.get_by_id(meetup_id):
-                response = {
-                    "Status": 404,
-                    "Error": "Meetup does not exists"
-                }
-            else:
-                response = {
-                    "Status": 200,
-                    "Data": [MeetUpModel.get_by_id(meetup_id)]
-                }
-            return response
+    def get(self):
 
         return {
             "Status": 200,
             "Data": [MeetUpModel.get_all_meetups()]
+        }
+
+
+class MeetUpItem(Resource):
+    """
+        Searches for a meetup by its id
+        and returns a matching record.
+    """
+
+    def get(self, id):
+
+        if not MeetUpModel.get_by_id(id):
+            return {
+                "Status": 404,
+                "Error": "Meetup non-existent"
+            }
+        return {
+            "Status": 200,
+            "Data": [MeetUpModel.get_by_id(id)]
         }
