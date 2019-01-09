@@ -44,6 +44,7 @@ class QuestionModel(AbstractModel):
             "body": self.body,
             "meetup": self.meetup,
             "user": self.tags,
+            "votes": self.votes
         }
 
         #
