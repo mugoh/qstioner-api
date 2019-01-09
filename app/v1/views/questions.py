@@ -2,9 +2,10 @@
     This module containes all Question resources.Question.
 """
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app.v1.models.questions import QuestionModel
+from app.v1.models.users import UserModel
 
 
 class Questions(Resource):
@@ -13,6 +14,7 @@ class Questions(Resource):
         new questions and perform requests on existing
         multiple questions.
     """
+
     decorators = [jwt_required]
 
     def post(self):
@@ -22,6 +24,11 @@ class Questions(Resource):
         parser.add_argument('body', type=str, required=True)
 
         args = parser.parse_args(strict=True)
+
+        # Add user to question record
+        user = UserModel.get_by_name(get_jwt_identity())
+        if user:
+            args.update(user.id)
 
         new_questn = QuestionModel(**args)
 
