@@ -9,7 +9,7 @@ class QuestionModel(AbstractModel):
         self.title = kwargs['title']
         self.body = kwargs['body']
         self.votes = kwargs['votes']
-        self.question = kwargs['question']
+        self.meetup = kwargs['meetup']
         self.created_by = kwargs['created_by']
 
     def save(self):
@@ -27,7 +27,7 @@ class QuestionModel(AbstractModel):
         return {
             "title": self.title,
             "body": self.body,
-            "question": self.question,
+            "meetup": self.meetup,
             "user": self.tags,
         }
 
@@ -45,8 +45,8 @@ class QuestionModel(AbstractModel):
     @classmethod
     def get_by_id(cls, given_id):
         """
-            Searches and returns a question instance
-            with an 'id' attribute matching the given id.
+            Searches and returns a question instance with
+            an 'id' attribute matching the given id.
             Default return value is None.
         """
         that_question = [question.dictify() for question in questions
@@ -55,7 +55,7 @@ class QuestionModel(AbstractModel):
         return that_question[0] if that_question else None
 
     @classmethod
-    def verify_existent(cls, question_object):
+    def verify_existence(cls, question_object):
         """
             Helps minimize on  questions duplicity.
             Ensures that for each meetup, a question
