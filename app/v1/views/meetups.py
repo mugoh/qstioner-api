@@ -41,7 +41,7 @@ class Meetups(Resource):
         return {
             "Status": 201,
             "Data": [new_meetup.dictify()]
-        }
+        }, 201
 
 
 class MeetUp(Resource):
@@ -54,7 +54,7 @@ class MeetUp(Resource):
         return {
             "Status": 200,
             "Data": [MeetUpModel.get_all_meetups()]
-        }
+        }, 200
 
 
 class MeetUpItem(Resource):
@@ -69,8 +69,8 @@ class MeetUpItem(Resource):
             return {
                 "Status": 404,
                 "Error": "Meetup non-existent"
-            }
+            }, 404
         return {
             "Status": 200,
             "Data": [MeetUpModel.get_by_id(id)]
-        }
+        }, 200
