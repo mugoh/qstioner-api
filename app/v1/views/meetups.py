@@ -23,4 +23,6 @@ class Meetups(Resource):
 
         args = parser.parse_args(strict=True)
 
-        MeetUpModel(**args).save()
+        # Ensure a meetup isn't created with same data twice
+
+        meetup = MeetUpModel(**args)
