@@ -1,8 +1,9 @@
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 import datetime
 
 from app.v1.models.meetups import MeetUpModel
+from app.v1.utils.helpers import admin_required
 
 
 class Meetups(Resource):
@@ -11,6 +12,7 @@ class Meetups(Resource):
         It also makes it possible for any user to fetch all existing meetups
     """
     @jwt_required
+    @admin_required
     def post(self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
         parser.add_argument('topic', type=str)
