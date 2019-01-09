@@ -26,3 +26,27 @@ class BaseTestCase(unittest.TestCase):
         user = json.loads(login_response.data.decode()
                           ).get("Data")[0].get('token')
         self.auth_header = {"Authorization": "Bearer " + user}
+
+        # Register admin user
+        user_data = json.dumps(dict(
+            username="Domesticable Admin",
+            email="admin@mammals.milkable",
+            password="pa55word",
+            isAdmin=True))
+        self.client.post('api/v1/auth/register',
+                         data=user_data,
+                         content_type='application/json')
+
+        # Login Admin
+
+        user_res = self.client.post('api/v1/auth/login',
+                                    data=json.dumps(dict(
+                                        username="Domesticable Admin",
+                                        email="admin@mammals.milkable",
+                                        password="pa55word"
+                                    )),
+                                    content_type='application/json')
+        # Get Authorization token
+
+        userH = user_res.get_json().get('Data')[0].get('token')
+        self.admin_auth = {"Authorization": "Bearer " + userH}
