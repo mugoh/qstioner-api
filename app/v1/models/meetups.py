@@ -17,3 +17,48 @@ class MeetUpModel(AbstractModel):
         self.topic = kargs.get('topic')
         self.happeningOn = kargs.get('happeningOn')
         self.tags = kargs.get('tags')
+
+    def save(self):
+        """
+            Saves meetup instance to present records
+        """
+        meetups.append(self)
+
+    def dictify(self):
+        """
+            Returns a dictionary of the meetup instance
+        """
+
+        """return {
+            "topic": self.topic,
+            "location": self.location,
+            "happeningOn": self.happeningOn,
+            "tags": self.tags,
+        }
+        """
+        return self.__dict__
+
+        #
+        # Searches
+
+    @classmethod
+    def get_all_meetups(cls):
+        """
+            Converts all present meetup objects to a
+            dictionary and sends them in a list envelope
+        """
+        return [meetup.dictify() for meetup in meetups]
+
+    @classmethod
+    def get_by_id(cls, given_id):
+        """
+            Searches and returns a meetup instance
+            with an 'id' attribute matching the given id.
+        """
+        that_meetup = [meetup for meetup in meetups
+                       if getattr(meetup, 'id') == given_id]
+
+        return that_meetup[0] if that_meetup else None
+
+    def __repr__(self):
+        return '{topic}'.format(**self.dictify())
