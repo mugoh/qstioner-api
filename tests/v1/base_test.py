@@ -9,12 +9,11 @@ class BaseTestCase(unittest.TestCase):
         self.app = create_app('testing')
         self.client = self.app.test_client()
 
-        # create admin user
+        # create new user
         self.user_data = json.dumps(dict(
             username="Domesticable Cow",
             email="cow@mammals.milkable",
-            password="pa55word",
-            isAdmin=True))
+            password="pa55word"))
 
         response = self.client.post('/api/v1/auth/register',
                                     data=self.user_data,
@@ -27,17 +26,3 @@ class BaseTestCase(unittest.TestCase):
         user = json.loads(login_response.data.decode()
                           ).get("Data")[0].get('token')
         self.auth_header = {"Authorization": "Bearer " + user}
-
-        # create new meetup
-
-        self.meetup_data = json.dumps(dict(
-            topic="Meats can Happen",
-            location="Over Here",
-            happeningOn="2019-01-01T23:13:00",
-            tags=['jump', 'eat', 'wake']
-        ))
-
-        meetup_response = self.client.post('api/v1/meetups',
-                                           data=self.meetup_data,
-                                           content_type='application/json',
-                                           headers=self.auth_header)

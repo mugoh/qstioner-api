@@ -4,7 +4,7 @@ import json
 
 class MeetUpTests(BaseTestCase):
 
-    def test_create_meetup(self):
+    def test_create_meetup_as_non_admin(self):
         response = self.client.post('api/v1/meetups',
                                     data=json.dumps(dict(
                                         topic="Meats can Happen",
@@ -14,5 +14,13 @@ class MeetUpTests(BaseTestCase):
                                     )),
                                     content_type='application/json',
                                     headers=self.auth_header)
+        self.assertEqual(response.status_code, 403,
+                         msg="Fails to create new meetup")
 
-        self.assertTrue(response.status.code == 201)
+    def test_get_all_meetups(self):
+        response = self.client.get('api/v1/meetups/upcoming',
+                                   content_type='application/json',
+                                   headers=self.auth_header)
+        self.assertEqual(response.status_code, 201)
+
+    def test_create_new_meetup(self):
