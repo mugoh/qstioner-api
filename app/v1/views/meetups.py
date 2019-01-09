@@ -42,3 +42,35 @@ class Meetups(Resource):
             "Status": 201,
             "Data": [new_meetup.dictify()]
         }
+
+
+class MeetUp(Resource):
+    """
+        This resource fetches all existing meetup records
+    """
+
+    def get(self):
+
+        return {
+            "Status": 200,
+            "Data": [MeetUpModel.get_all_meetups()]
+        }
+
+
+class MeetUpItem(Resource):
+    """
+        Searches for a meetup by its id
+        and returns a matching record.
+    """
+
+    def get(self, id):
+
+        if not MeetUpModel.get_by_id(id):
+            return {
+                "Status": 404,
+                "Error": "Meetup non-existent"
+            }
+        return {
+            "Status": 200,
+            "Data": [MeetUpModel.get_by_id(id)]
+        }
