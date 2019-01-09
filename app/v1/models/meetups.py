@@ -61,7 +61,7 @@ class MeetUpModel(AbstractModel):
         return that_meetup[0] if that_meetup else None
 
     @classmethod
-    def get_by_title(cls, meetup_object):
+    def verify_unique(cls, meetup_object):
         """
             Ensures a meetup isn't re-created with the
             same data
