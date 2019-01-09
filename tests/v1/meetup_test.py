@@ -23,7 +23,7 @@ class MeetUpTests(BaseTestCase):
                                    headers=self.auth_header)
         self.assertEqual(response.status_code, 200)
 
-    def test_create_new_meetup(self):
+    def test_create_new_meetup_twice(self):
         user_data = json.dumps(dict(
             username="Domesticable Admin",
             email="admin@mammals.milkable",
@@ -59,5 +59,24 @@ class MeetUpTests(BaseTestCase):
                                    tags=['jump', 'eat', 'wake']
                                )),
                                headers=self.admin_auth)
-        print(res.get_json())
+        self.assertEqual(res.status_code, 409,
+                         msg="Fails. Creates an \
+                         already existing meetup record")
+
+    def test_get_individual_meetup(self):
+        response = self.client.get('api/v1/meetups/4',
+                                   content_type='application/json',
+                                   headers=self.auth_header)
+        print(response.data.decode())
+        self.assertEqual(response.status_code, 404)
+
+    def test_create_new_meetup(self):
+        res = self.client.post('api/v1/meetups',
+                               content_type='application/json',
+                               data=json.dumps(dict(
+                                   topic="Meats can Happen",
+                                   location="Over Here",
+                                   tags=['jump', 'eat', 'wake']
+                               )),
+                               headers=self.admin_auth)
         self.assertEqual(res.status_code, 201)
