@@ -9,10 +9,10 @@ class QuestionModel(AbstractModel):
         self.title = kwargs['title']
         self.body = kwargs['body']
         self.meetup = kwargs['meetup']
-        self.created_by = kwargs['created_by']
+        self.created_by = kwargs.get('user', "Anonymous")
         self.user = kwargs.get('user')
 
-        self.votes = 0
+        self._votes = 0
 
     @property
     def votes(self):
@@ -44,7 +44,7 @@ class QuestionModel(AbstractModel):
             "title": self.title,
             "body": self.body,
             "meetup": self.meetup,
-            "user": self.tags,
+            "user": self.user,
             "votes": self.votes
         }
 
@@ -82,7 +82,7 @@ class QuestionModel(AbstractModel):
                     if repr(question) == repr(question_object)])
 
     def __repr__(self):
-        return '{title} {tags} {location}'.format(**self.dictify())
+        return '{title} {body} {meetup} {user}'.format(**self.dictify())
 
 
 questions = []
