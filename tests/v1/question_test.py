@@ -7,14 +7,67 @@ class TestQuestions(BaseTestCase):
     def test_create_new_question(self):
         self.new_question = json.dumps(dict(
             title="One Question",
-            body="This looks lika a body"))
+            body="This looks lika a body",
+            meetup=1))
 
         response = self.client.post('api/v1/questions',
                                     data=self.new_question,
                                     content_type='application/json',
                                     headers=self.auth_header)
+
+        # Verify meetup refrenced exists
+
+        response_confirm_meetup = self.client.get(
+            'api/v1/meetups/1',
+            content_type='application/json',
+            headers=self.auth_header)
+
+        self.assertEqual(response_confirm_meetup.status_code, 200,
+                         msg="Fails to fetch meetup for question")
+
         self.assertEqual(response.status_code, 201,
                          msg="Fails to create a new question")
+
+    def test_create_existing_question(self):
+        new_question = json.dumps(dict(
+            title="One Question Dup",
+            body="This looks like a body"))
+
+        self.client.post('api/v1/questions',
+                         data=new_question,
+                         content_type='application/json',
+                         headers=self.auth_header)
+
+        response = self.client.post('api/v1/questions',
+                                    data=new_question,
+                                    content_type='application/json',
+                                    headers=self.auth_header)
+        self.assertEqual(response.status_code, 409,
+                         msg="Fails to not create\
+                         a question with same data twice")
+
+    def test_create_new_question_that_references_nonexistent_meetup(self):
+        self.new_question = json.dumps(dict(
+            title="One Question",
+            body="This looks lika a body",
+            meetup=400))
+
+        response = self.client.post('api/v1/questions',
+                                    data=self.new_question,
+                                    content_type='application/json',
+                                    headers=self.auth_header)
+        response_confirm_meetup = self.client.get(
+            'api/v1/meetups/400',
+            content_type='application/json',
+            headers=self.auth_header)
+
+        self.assertEqual(response_confirm_meetup.status_code, 404,
+                         msg="Fails to not create question\
+                         for a non-existemt meetup")
+
+        self.assertEqual(response.status_code, 404,
+                         msg="Fails to not create question\
+                         for a non-existemt meetup")
 
     def test_get_all_questions(self):
 
