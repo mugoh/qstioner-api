@@ -20,3 +20,5 @@ app_api.add_resource(MeetUp, 'meetups/upcoming')
 app_api.add_resource(MeetUpItem, 'meetups/<int:id>')
 app_api.add_resource(Questions, 'questions')
 app_api.add_resource(Question, 'questions/<int:id>')
+app_api.add_resource(Question, 'questions/<int:id>/vote',
+                     methods=['PATCH'])
