@@ -74,13 +74,26 @@ class Question(Resource):
     """
 
     def get(self, id):
+        """
+            Retrieves an individual question
+        """
         if not QuestionModel.get_by_id(id):
             return {
                 "Status": 404,
-                "Error": "That question does not exist"
+                "Message": "That question does not exist. Wanna create it?"
             }, 404
 
         return {
             "Status": 200,
             "Data": [QuestionModel.get_by_id(id)]
         }, 200
+
+    def patch(self, id):
+        """
+            Upvotes or downvotes an existing question
+        """
+        if not QuestionModel.get_by_id(id):
+            return {
+                "Status": 404,
+                "Message": "That question does not exist. Wanna create it?"
+            }, 404
