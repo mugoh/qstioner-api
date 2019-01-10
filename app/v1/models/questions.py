@@ -60,14 +60,21 @@ class QuestionModel(AbstractModel):
         return [question.dictify() for question in questions]
 
     @classmethod
-    def get_by_id(cls, given_id):
+    def get_by_id(cls, given_id, obj=False):
         """
             Searches and returns a question instance with
             an 'id' attribute matching the given id.
             Default return value is None.
         """
-        that_question = [question.dictify() for question in questions
-                         if getattr(question, 'id') == given_id]
+
+        # Send an instance or a dict item
+
+        if obj:
+            that_question = [question for question in questions
+                             if getattr(question, 'id') == given_id]
+        elif not obj:
+            that_question = [question.dictify() for question in questions
+                             if getattr(question, 'id') == given_id]
 
         return that_question[0] if that_question else None
 
