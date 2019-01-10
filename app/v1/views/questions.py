@@ -88,12 +88,15 @@ class Question(Resource):
             "Data": [QuestionModel.get_by_id(id)]
         }, 200
 
-    def patch(self, id):
+    def patch(self, id, vote):
         """
             Upvotes or downvotes an existing question
         """
+
         if not QuestionModel.get_by_id(id):
             return {
                 "Status": 404,
                 "Message": "That question does not exist. Wanna create it?"
             }, 404
+        else:
+            question = QuestionModel.get_by_id(id)
