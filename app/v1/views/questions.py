@@ -6,6 +6,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app.v1.models.questions import QuestionModel
 from app.v1.models.users import UserModel
+from app.v1.models.meetups import MeetUpModel
 
 
 class Questions(Resource):
@@ -20,6 +21,7 @@ class Questions(Resource):
 
         parser.add_argument('title', type=str, required=True)
         parser.add_argument('body', type=str, required=True)
+        parser.add_argument('meetup', type=int, default=1)
 
         args = parser.parse_args(strict=True)
 
@@ -29,6 +31,15 @@ class Questions(Resource):
             args.update({
                 "user": user.id
             })
+
+        # Verify meetup to be added to question record
+
+        """if not MeetUpModel.get_by_id(args['meetup']):
+            return {
+                "Status": 404,
+                "Message": "Meetup id non-existent. Maybe create it?"
+            }, 404
+        """
 
         new_questn = QuestionModel(**args)
 
