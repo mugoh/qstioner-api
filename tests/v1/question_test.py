@@ -142,4 +142,5 @@ class TestQuestions(BaseTestCase):
 
         with self.assertRaises(AttributeError) as ctx:
             res.votes = 300
-        self.assertTrue('Oops!' in ctx.exception())
+        self.assertTrue('Oops! You are not allowed to do that' in
+                        str(ctx.exception))
