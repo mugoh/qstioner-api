@@ -35,12 +35,11 @@ class Questions(Resource):
 
         # Verify meetup to be added to question record
 
-        """if not MeetUpModel.get_by_id(args['meetup']):
+        if not MeetUpModel.get_by_id(args['meetup']):
             return {
                 "Status": 404,
                 "Message": "Meetup id non-existent. Maybe create it?"
             }, 404
-        """
 
         new_questn = QuestionModel(**args)
 

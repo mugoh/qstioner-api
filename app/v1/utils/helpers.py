@@ -14,7 +14,11 @@ def admin_required(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
 
-        if not get_jwt_identity():
+        # We never get here in real sense, consumed by missing Auth header
+        # Uncomment when testing manually
+        #
+        # Verify Logged in
+        """if not get_jwt_identity():
             return {
                 "Status": 403,
                 "Error": "Please log in, okay?"
@@ -26,7 +30,7 @@ def admin_required(f):
                 "Status": 400,
                 "Error": "Identity unknown"
             }
-
+    """
         if not UserModel.get_by_name(get_jwt_identity()).isAdmin:
             return {
                 "Status": 403,
