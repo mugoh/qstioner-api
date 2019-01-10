@@ -15,8 +15,6 @@ class Questions(Resource):
         multiple questions.
     """
 
-    decorators = [jwt_required]
-
     def post(self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
 
@@ -64,7 +62,7 @@ class Question(Resource):
         Performs requests on a single question
     """
 
-    def get(self):
+    def get(self, id):
         if not QuestionModel.get_by_id(id):
             return {
                 "Status": 404,
