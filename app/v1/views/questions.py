@@ -99,4 +99,19 @@ class Question(Resource):
                 "Message": "That question does not exist. Wanna create it?"
             }, 404
         else:
-            question = QuestionModel.get_by_id(id)
+            question = QuestionModel.get_by_id(id, obj=True)
+
+        if vote == 'upvote':
+            question.update_votes()
+        elif vote == 'downvote':
+            question.update_votes(add=False)
+        else:
+            return {
+                "Status": 400,
+                "Message": "Please, 'upvote' or 'downvote' only. Cool?"
+            }, 400
+
+        return {
+            "Status": 200,
+            "Data": [question.dictify()]
+        }, 200
