@@ -15,6 +15,7 @@ class Questions(Resource):
         new questions and perform requests on existing
         multiple questions.
     """
+    decorators = [jwt_required]
 
     def post(self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
@@ -72,6 +73,7 @@ class Question(Resource):
     """
         Performs requests on a single question
     """
+    decorators = [jwt_required]
 
     def get(self, id):
         """
@@ -88,11 +90,15 @@ class Question(Resource):
             "Data": [QuestionModel.get_by_id(id)]
         }, 200
 
-    def patch(self, id, vote):
-        """
-            Upvotes or downvotes an existing question
-        """
 
+class QuestionVote(Resource):
+    """
+        Upvotes or downvotes an existing question.
+    """
+    @jwt_required
+    def patch(self, id, vote):
+
+        # Verify existence of given question id
         if not QuestionModel.get_by_id(id):
             return {
                 "Status": 404,
@@ -105,6 +111,8 @@ class Question(Resource):
             question.update_votes()
         elif vote == 'downvote':
             question.update_votes(add=False)
+
+        # Handle unknown url str parameter
         else:
             return {
                 "Status": 400,
