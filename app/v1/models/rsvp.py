@@ -1,7 +1,5 @@
 from .abstract_model import AbstractModel
 
-rsvps = []
-
 
 class RsvpModel(AbstractModel):
 
@@ -45,7 +43,7 @@ class RsvpModel(AbstractModel):
     @classmethod
     def verify_unique(cls, rsvp_object):
         """
-            Helps in ensyring a user does not rsvp for
+            Helps in ensuring a user does not rsvp for
             the meetup twice with the same rsvp data.
         """
         return any([rsvp for rsvp in rsvps
@@ -53,3 +51,6 @@ class RsvpModel(AbstractModel):
 
     def __repr__(self):
         return '{response} {meetup} {user}'.format(**self.dictify())
+
+
+rsvps = []
