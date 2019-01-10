@@ -57,3 +57,21 @@ class Questions(Resource):
             "Status": 200,
             "Data": [QuestionModel.get_all_questions()]
         }, 200
+
+
+class Question(Resource):
+    """
+        Performs requests on a single question
+    """
+
+    def get(self):
+        if not QuestionModel.get_by_id(id):
+            return {
+                "Status": 404,
+                "Error": "That question does not exist"
+            }, 404
+
+        return {
+            "Status": 200,
+            "Data": [QuestionModel.get_by_id(id)]
+        }, 200
