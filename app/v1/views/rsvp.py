@@ -12,9 +12,9 @@ from ..models.users import UserModel
 
 
 class Rsvps(Resource):
-    decorators = [jwt_required]
 
-    def post(self, id):
+    @jwt_required
+    def post(self, id, rsvp):
         """
             Creates an rsvp with refrence to a meetup and the
             existing user's
