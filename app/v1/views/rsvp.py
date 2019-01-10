@@ -12,6 +12,7 @@ from ..models.users import UserModel
 
 
 class Rsvps(Resource):
+    decorators = [jwt_required]
 
     def post(self, id):
         """
