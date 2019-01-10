@@ -3,6 +3,7 @@ from flask import Blueprint
 
 from app.v1.views.user import UsersRegistration, UserLogin, UserLogout
 from app.v1.views.meetups import Meetups, MeetUp, MeetUpItem
+from app.v1.views.questions import Question, Questions, QuestionVote
 
 auth_blueprint = Blueprint("auth", __name__, url_prefix='/api/v1/auth/')
 app_blueprint = Blueprint("app", __name__, url_prefix='/api/v1/')
@@ -17,3 +18,7 @@ auth_api.add_resource(UserLogout, 'logout')
 app_api.add_resource(Meetups, 'meetups')
 app_api.add_resource(MeetUp, 'meetups/upcoming')
 app_api.add_resource(MeetUpItem, 'meetups/<int:id>')
+app_api.add_resource(Questions, 'questions')
+app_api.add_resource(Question, 'questions/<int:id>')
+app_api.add_resource(QuestionVote, 'questions/<int:id>/<vote>',
+                     methods=['PATCH'])
