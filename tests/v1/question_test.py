@@ -1,4 +1,5 @@
 from .base_test import BaseTestCase
+from app.v1.models.questions import QuestionModel
 import json
 
 
@@ -94,24 +95,6 @@ class TestQuestions(BaseTestCase):
                          msg="Fails to return error\
                          on fetching missing question")
 
-    def test_create_existing_question(self):
-        new_question = json.dumps(dict(
-            title="One Question Dup",
-            body="This looks like a body"))
-
-        self.client.post('api/v1/questions',
-                         data=new_question,
-                         content_type='application/json',
-                         headers=self.auth_header)
-
-        response = self.client.post('api/v1/questions',
-                                    data=new_question,
-                                    content_type='application/json',
-                                    headers=self.auth_header)
-        self.assertEqual(response.status_code, 409,
-                         msg="Fails to avoid creation\
-                         of question with same data twice")
-
     def test_down_vote_question(self):
         res = self.client.patch('api/v1/questions/1/downvote',
                                 content_type='application/json',
@@ -147,3 +130,16 @@ class TestQuestions(BaseTestCase):
 
         self.assertEqual(res.status_code, 400,
                          msg="Fails to validate vote request")
+
+    def test_change_vote_on_question_instance_directly(self):
+        new_question = dict(
+            title="One Question Again",
+            body="This looks like  a semi-body",
+            meetup=400
+        )
+
+        res = QuestionModel(**new_question)
+
+        with self.assertRaises(AttributeError) as ctx:
+            res.votes = 300
+        self.assertTrue('Oops!' in ctx.exception())
