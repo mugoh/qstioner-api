@@ -48,6 +48,12 @@ def current_user_only(f):
         user = url_user_field[-2]
         this_user = get_jwt_identity()
 
+        if not this_user:
+            return {
+                "Status": 403,
+                "Message": "You need to be logged in to do that"
+            }
+
         try:
             uid = int(user)
             user = [usr for usr in
@@ -61,19 +67,3 @@ def current_user_only(f):
             }, 403
         return f(*args, **kwars)
     return wrapper
-
-
-def check_user(user):
-    this_user = get_jwt_identity()
-
-    try:
-        uid = int(user)
-        user = [usr for usr in
-                UserModel.get_all_users() if user['id'] == uid]
-    except ValueError:
-        user = user
-    if this_user != user:
-        return {
-            "Status": 403,
-            "Error": "Denied. Not accessible to current user"
-        }, 403
