@@ -57,11 +57,13 @@ class Rsvps(Resource):
 
         rsvp = RsvpModel(**args)
         if not RsvpModel.verify_unique(rsvp):
+            rsvp.save()
+
+        else:
             return {
                 "Status": 409,
                 "Message": "You've done that same rsvp already"
             }, 409
-        rsvp.save()
 
         return {
             "Status": 201,
