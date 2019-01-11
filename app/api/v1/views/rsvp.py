@@ -69,3 +69,11 @@ class Rsvps(Resource):
             "Status": 201,
             "Data": rsvp.dictify()
         }, 201
+
+    def get(self, meetup, id=None, username=None):
+        """
+            Allows the current user to see every existing
+            meetups s/he has responded to an rsvp for
+        """
+
+        rsvps = RsvpModel.get_all_rsvps(obj=True)
