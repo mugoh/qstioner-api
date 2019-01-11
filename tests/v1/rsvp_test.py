@@ -26,3 +26,11 @@ class RSVPTest(BaseTestCase):
 
         self.assertEqual(res_msg, "That meetup does not exist",
                          msg="Fails to not rsvp a missing meetup")
+
+    def test_create_same_rsvp_more_than_once(self):
+
+        self.post('api/v1/meetups/1/yes')
+        response = self.post('api/v1/meetups/1/yes')
+
+        self.assertEqual(response.status_code, 409,
+                         msg="Fails. Allows user to create same rsvp twice")
