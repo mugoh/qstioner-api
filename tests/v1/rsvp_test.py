@@ -14,6 +14,15 @@ class RSVPTest(BaseTestCase):
         # Known responses are 'yes', 'no' and 'maybe'
 
         response = self.post('api/v1/meetups/1/so')
-        self.assertEqual(response.status_code, 400,
-                         msg="Fails to not\
+        self.assertTrue("Your response is not known"
+                        in response.get_json().get("Message"),
+                        msg="Fails to not\
                          create an rsvp with an invalid response")
+
+    def test_rsvp_for_nonexistent_meetup(self):
+        res = self.post('api/v1/meetups/500/no')
+
+        res_msg = res.get_json().get('Message')
+
+        self.assertEqual(res_msg, "That meetup does not exist",
+                         msg="Fails to not rsvp a missing meetup")
