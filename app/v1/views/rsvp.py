@@ -33,7 +33,7 @@ class Rsvps(Resource):
             return {
                 "Status": 400,
                 "Message": err_msg
-            }
+            }, 400
 
         # Confirm existence of the meetup  to rsvp
 
