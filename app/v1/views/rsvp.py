@@ -13,17 +13,26 @@ from ..models.users import UserModel
 
 class Rsvps(Resource):
 
-    def post(self, id):
+    def post(self, id, response):
         """
             Creates an rsvp with refrence to a meetup and the
             existing user's
         """
-        parser = reqparse.RequestParser(trim=True, bundle_errors=True)
 
-        parser.add_argument('response', type=str, required=True)
-        parser.add_argument('meetup', type=int, default=1)
+        args = {}
 
-        args = parser.parse_args(strict=True)
+        # Confirm response is valid
+
+        expected_responses = ['yes', 'no', 'maybe']
+
+        err_msg = "Your response is not known. Make it: " +
+        str(expected_responses[:-1]) + 'or' + str(expected_responses[-1])
+
+        if response not in expected_responses:
+            return {
+                "Status": 400,
+                "Message": err_msg
+            }
 
         # Confirm existence of the meetup  to rsvp
 
@@ -33,10 +42,15 @@ class Rsvps(Resource):
                 "Message": "That meetup does not exist"
             }, 404
 
-        user = UserModel.get_by_name(get_jwt_identity()).id
+        user = UserModel.get_by_name(get_jwt_identity())
+
+        if user:
+            user_id = getattr(user, 'id')
 
         args.update({
-            "user": user
+            "user": user_id,
+            "meetup": id,
+            "response": response
         })
 
         # Create rsvp and confirm it's not a duplicate
