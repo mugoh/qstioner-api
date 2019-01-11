@@ -3,7 +3,7 @@ from flask_jwt_extended import JWTManager
 
 from app.api.v1 import auth_blueprint, app_blueprint
 from app.api.v1.views.user import blacklisted_tokens
-from ..instance.config import APP_CONFIG
+from instance.config import APP_CONFIG
 
 
 def create_app(config_setting):
