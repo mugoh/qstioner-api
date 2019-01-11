@@ -42,11 +42,12 @@ def admin_required(f):
 
 
 def current_user_only(f):
-    wraps(f)
-
+    @wraps(f)
     def wrapper(*args, **kwars):
         url_user_field = request.base_url.split('/')[-2]
         check_user(url_user_field)
+        return f(*args, **kwars)
+    return wrapper
 
 
 def check_user(user):
