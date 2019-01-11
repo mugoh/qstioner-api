@@ -75,5 +75,12 @@ class Rsvps(Resource):
             Allows the current user to see every existing
             meetups s/he has responded to an rsvp for
         """
+        query_parameter = next(item for item in [id, username]
+                               if item is not None)
+        if username:
+            query_parameter = UserModel.get_by_name(username).id
 
-        rsvps = RsvpModel.get_all_rsvps(obj=True)
+        rsvps = RsvpModel.get_all_rsvps()
+
+        [rsvp for rsvp in rsvps
+         if rsvp.get('user') == query_parameter]
