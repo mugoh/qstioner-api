@@ -53,7 +53,7 @@ class RsvpModel(AbstractModel):
                     if repr(rsvp) == repr(rsvp_object)])
 
     def __repr__(self):
-        return '{response} {meetup} {user}'.format(**self.dictify())
+        return '{meetup} {user}'.format(**self.dictify())
 
 
 rsvps = []
