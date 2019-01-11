@@ -3,7 +3,7 @@
     rsvp Resource
 """
 
-from flask_restful import Resource, reqparse
+from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from ..models.rsvp import RsvpModel
@@ -69,6 +69,9 @@ class Rsvps(Resource):
             "Status": 201,
             "Data": rsvp.dictify()
         }, 201
+
+
+class Rsvp(Resource):
 
     def get(self, id=None, username=None):
         """
