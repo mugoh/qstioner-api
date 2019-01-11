@@ -2,8 +2,8 @@ from flask_restful import Resource, reqparse
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import datetime
 
-from ...models.meetups import MeetUpModel
-from ...utils.helpers import admin_required
+from ..models.meetups import MeetUpModel
+from ..utils.helpers import admin_required
 
 
 class Meetups(Resource):
