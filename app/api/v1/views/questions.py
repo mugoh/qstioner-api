@@ -4,9 +4,9 @@
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from app.v1.models.questions import QuestionModel
-from app.v1.models.users import UserModel
-from app.v1.models.meetups import MeetUpModel
+from ..models.questions import QuestionModel
+from ..models.users import UserModel
+from ..models.meetups import MeetUpModel
 
 
 class Questions(Resource):
