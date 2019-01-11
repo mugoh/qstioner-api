@@ -59,7 +59,7 @@ class BaseTestCase(unittest.TestCase):
         return res
 
     def get(self, path):
-        res = self.client.post(path,
-                               content_type='application/json',
-                               headers=self.auth_header)
+        res = self.client.get(path,
+                              content_type='application/json',
+                              headers=self.auth_header)
         return res
