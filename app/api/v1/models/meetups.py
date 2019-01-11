@@ -2,7 +2,7 @@
     Holds the model for the meetup resource
 """
 
-from app.v1.models.abstract_model import AbstractModel
+from ..models.abstract_model import AbstractModel
 
 meetups = []  # Holds all meetups records
 

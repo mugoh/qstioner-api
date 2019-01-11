@@ -1,7 +1,7 @@
 from functools import wraps
 
-from app.v1.models.users import UserModel
-from app.v1.views.user import get_jwt_identity
+from ...v1.models.users import UserModel
+from ...v1.views.user import get_jwt_identity
 
 
 def verify_pass(value):

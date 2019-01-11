@@ -3,7 +3,7 @@
 """
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app.v1.models.abstract_model import AbstractModel
+from .abstract_model import AbstractModel
 
 users = []  # Persists user objects
 
