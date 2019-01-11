@@ -51,6 +51,10 @@ def current_user_only(f):
 
 def check_user(user):
     this_user = get_jwt_identity()
+
+    if len(user) == 1:
+        user = [usr for usr in
+                UserModel.get_all_users() if user.get('id') == int(user)]
     if this_user is not user:
         return {
             "Status": 403,
