@@ -13,6 +13,7 @@ from ..models.users import UserModel
 
 class Rsvps(Resource):
 
+    @jwt_required
     def post(self, id, response):
         """
             Creates an rsvp with refrence to a meetup and the
@@ -23,12 +24,12 @@ class Rsvps(Resource):
 
         # Confirm response is valid
 
-        expected_responses = ['yes', 'no', 'maybe']
+        ex = ['yes', 'no', 'maybe']
 
-        err_msg = "Your response is not known. Make it: " +
-        str(expected_responses[:-1]) + 'or' + str(expected_responses[-1])
+        err_msg = "Your response is not known. Make it: " + \
+            str(ex[:-1]) + ' or ' + str(ex[-1])
 
-        if response not in expected_responses:
+        if response not in ex:
             return {
                 "Status": 400,
                 "Message": err_msg
@@ -44,8 +45,7 @@ class Rsvps(Resource):
 
         user = UserModel.get_by_name(get_jwt_identity())
 
-        if user:
-            user_id = getattr(user, 'id')
+        user_id = getattr(user, 'id')
 
         args.update({
             "user": user_id,
