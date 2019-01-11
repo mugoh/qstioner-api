@@ -95,6 +95,8 @@ class Rsvp(Resource):
 
         # Find all these rsvp-ed meetups
         meetups = [item.id for item in users_rsvps]
+        meetups_data = list(map(lambda x: MeetUpModel.get_by_id(x), meetups))
 
         return {"Status": 200,
-                "Data": meetups}, 200
+                "Data": [(id + 1, data) for id, data
+                         in enumerate(meetups_data)]}, 200
