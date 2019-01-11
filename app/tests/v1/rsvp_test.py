@@ -34,3 +34,10 @@ class RSVPTest(BaseTestCase):
 
         self.assertEqual(response.status_code, 409,
                          msg="Fails. Allows user to create same rsvp twice")
+
+    def test_fetch_rsvp_for_user(self):
+
+        response = self.get('api/v1/meetups/1/rsvp')
+
+        self.assertEqual(response.status_code, 200,
+                         msg="Fails to show a user Rsvp-ed meetups")
