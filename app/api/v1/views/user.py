@@ -7,8 +7,8 @@ from flask_jwt_extended import (
     jwt_required, create_access_token, get_jwt_identity, get_raw_jwt)
 import random
 
-from app.v1.models.users import UserModel
-from app.v1.utils.helpers import verify_pass
+from ..models.users import UserModel
+from ..utils.helpers import verify_pass
 
 blacklisted_tokens = set()
 
