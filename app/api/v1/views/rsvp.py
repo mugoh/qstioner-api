@@ -3,12 +3,13 @@
     rsvp Resource
 """
 
-from flask_restful import Resource, reqparse
+from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from ..models.rsvp import RsvpModel
 from ..models.meetups import MeetUpModel
 from ..models.users import UserModel
+from ..utils.helpers import current_user_only
 
 
 class Rsvps(Resource):
@@ -69,3 +70,47 @@ class Rsvps(Resource):
             "Status": 201,
             "Data": rsvp.dictify()
         }, 201
+
+
+class Rsvp(Resource):
+    decorators = [jwt_required, current_user_only]
+
+    def get(self, id=None, username=None):
+        """
+            Allows the current user to see every existing
+            meetups s/he has responded to an rsvp for
+        """
+
+        # Find none 'None' ulr
+
+        query_parameter = next((item for item in [id, username]
+                                if item is not None), None)
+        if not query_parameter:
+            return {
+                "Status": 400,
+                "Error": "Provide a valid username or user id"
+            }, 400
+
+        # Get user id
+        # Rsvp stores user by id
+        if username and UserModel.get_by_name(username):
+            query_parameter = UserModel.get_by_name(username).id
+
+        else:
+            return {
+                "Status": 400,
+                "Error": "Username not registered. Provide a valid username"
+            }, 400
+
+        rsvps = RsvpModel.get_all_rsvps(obj=True)
+
+        users_rsvps = [rsvp for rsvp in rsvps
+                       if getattr(rsvp, 'user') == query_parameter]
+
+        # Find all these rsvp-ed meetups
+        meetups = [item.id for item in users_rsvps]
+        meetups_data = list(map(lambda x: MeetUpModel.get_by_id(x), meetups))
+
+        return {"Status": 200,
+                "Data": [(id + 1, data) for id, data
+                         in enumerate(meetups_data)]}, 200

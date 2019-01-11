@@ -1,4 +1,5 @@
 from functools import wraps
+from flask import request
 
 from ...v1.models.users import UserModel
 from ...v1.views.user import get_jwt_identity
@@ -37,4 +38,32 @@ def admin_required(f):
                 "Message": "Oops! Only an admin can do that"
             }, 403
         return f(*args, **kwargs)
+    return wrapper
+
+
+def current_user_only(f):
+    @wraps(f)
+    def wrapper(*args, **kwars):
+        url_user_field = request.base_url.split('/')
+        user = url_user_field[-2]
+        this_user = get_jwt_identity()
+
+        if not this_user:
+            return {
+                "Status": 403,
+                "Message": "You need to be logged in to do that"
+            }
+
+        try:
+            uid = int(user)
+            user = [usr for usr in
+                    UserModel.get_all_users() if usr.get('id') == uid]
+        except ValueError:
+            user = user
+        if this_user != user:
+            return {
+                "Status": 403,
+                "Error": "Denied. Not accessible to current user"
+            }, 403
+        return f(*args, **kwars)
     return wrapper

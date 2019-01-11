@@ -4,8 +4,6 @@
 
 from ..models.abstract_model import AbstractModel
 
-meetups = []  # Holds all meetups records
-
 
 class MeetUpModel(AbstractModel):
 
@@ -71,3 +69,6 @@ class MeetUpModel(AbstractModel):
 
     def __repr__(self):
         return '{topic} {tags} {location}'.format(**self.dictify())
+
+
+meetups = []  # Holds all meetups records

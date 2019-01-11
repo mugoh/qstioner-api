@@ -33,11 +33,14 @@ class RsvpModel(AbstractModel):
         # Searches
 
     @classmethod
-    def get_all_rsvps(cls):
+    def get_all_rsvps(cls, obj=False):
         """
             Converts all present rsvp objects to a
             dictionary and sends them in a list envelope
         """
+        if obj:
+            return [rsvp for rsvp in rsvps]
+
         return [rsvp.dictify() for rsvp in rsvps]
 
     @classmethod
@@ -50,7 +53,7 @@ class RsvpModel(AbstractModel):
                     if repr(rsvp) == repr(rsvp_object)])
 
     def __repr__(self):
-        return '{response} {meetup} {user}'.format(**self.dictify())
+        return '{meetup} {user}'.format(**self.dictify())
 
 
 rsvps = []
