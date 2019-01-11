@@ -23,4 +23,4 @@ app_api.add_resource(Questions, 'questions')
 app_api.add_resource(Question, 'questions/<int:id>')
 app_api.add_resource(QuestionVote, 'questions/<int:id>/<vote>',
                      methods=['PATCH'])
-app_api.add_resource(Rsvps, 'meetups/<int:id>/<rsvps>')
+app_api.add_resource(Rsvps, 'meetups/<int:id>/<response>')
