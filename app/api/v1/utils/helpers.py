@@ -52,7 +52,7 @@ def current_user_only(f):
             return {
                 "Status": 403,
                 "Message": "You need to be logged in to do that"
-            }
+            }, 403
 
         try:
             uid = int(user)
