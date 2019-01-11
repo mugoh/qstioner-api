@@ -13,8 +13,7 @@ from ..models.users import UserModel
 
 class Rsvps(Resource):
 
-    @jwt_required
-    def post(self, id, rsvp):
+    def post(self, id):
         """
             Creates an rsvp with refrence to a meetup and the
             existing user's
@@ -26,13 +25,13 @@ class Rsvps(Resource):
 
         args = parser.parse_args(strict=True)
 
-        # Confirm existence of meetup
+        # Confirm existence of the meetup  to rsvp
 
         if not MeetUpModel.get_by_id(id):
             return {
-                "Status": 400,
+                "Status": 404,
                 "Message": "That meetup does not exist"
-            }, 400
+            }, 404
 
         user = UserModel.get_by_name(get_jwt_identity()).id
 
