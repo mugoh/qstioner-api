@@ -9,6 +9,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from ..models.rsvp import RsvpModel
 from ..models.meetups import MeetUpModel
 from ..models.users import UserModel
+from ..utils.helpers import current_user_only
 
 
 class Rsvps(Resource):
@@ -72,6 +73,7 @@ class Rsvps(Resource):
 
 
 class Rsvp(Resource):
+    decorators = [jwt_required, current_user_only]
 
     def get(self, id=None, username=None):
         """
@@ -81,12 +83,24 @@ class Rsvp(Resource):
 
         # Find none 'None' ulr
 
-        query_parameter = next(item for item in [id, username]
-                               if item is not None)
+        query_parameter = next((item for item in [id, username]
+                                if item is not None), None)
+        if not query_parameter:
+            return {
+                "Status": 400,
+                "Error": "Provide a valid username or user id"
+            }, 400
+
         # Get user id
         # Rsvp stores user by id
-        if username:
+        if username and UserModel.get_by_name(username):
             query_parameter = UserModel.get_by_name(username).id
+
+        else:
+            return {
+                "Status": 400,
+                "Error": "Username not registered. Provide a valid username"
+            }, 400
 
         rsvps = RsvpModel.get_all_rsvps(obj=True)
 

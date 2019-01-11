@@ -45,6 +45,7 @@ def current_user_only(f):
     @wraps(f)
     def wrapper(*args, **kwars):
         url_user_field = request.base_url.split('/')[-2]
+        print(request.base_url)
         check_user(url_user_field)
         return f(*args, **kwars)
     return wrapper
@@ -53,10 +54,13 @@ def current_user_only(f):
 def check_user(user):
     this_user = get_jwt_identity()
 
-    if len(user) == 1:
+    try:
+        uid = int(user)
         user = [usr for usr in
-                UserModel.get_all_users() if user.get('id') == int(user)]
-    if this_user is not user:
+                UserModel.get_all_users() if user['id'] == uid]
+    except ValueError:
+        user = user
+    if this_user != user:
         return {
             "Status": 403,
             "Error": "Denied. Not accessible to current user"
