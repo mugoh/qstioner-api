@@ -3,8 +3,6 @@
 """
 
 from flask_restful import Resource, reqparse, inputs
-from flask_jwt_extended import (
-    jwt_required, create_access_token, get_jwt_identity, get_raw_jwt)
 import random
 
 from ..models.users import UserModel
