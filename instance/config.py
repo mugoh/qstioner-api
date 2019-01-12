@@ -7,11 +7,9 @@ class BaseConfig:
     #SECRET_KEY = os.environ.get('SECRET_KEY')
     CSRF_ENABLED = True
     BUNDLE_ERRORS = True
-    JWT_BLACKLIST_ENABLED = True
-    JWT_BLACKLIST_TOKEN_CHECKS = ['access']
-    #JWT_SECRET_KET = os.environ.get('JWT_SECRET_KEY')
-    JWT_SECRET_KEY = b'\xc2;F]l\x046t\xfe\x08'
     SECRET_KEY = b'\xc2;F]l\x0490u&6t\xfe\x08'
+    AUTH_TOKEN_EXP_DAYS = 30
+    AUTH_TOKEN_EXP_SECS = 60 * 5
 
 
 class DevelopmentConfig(BaseConfig):
