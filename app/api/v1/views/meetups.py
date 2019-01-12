@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse
 import datetime
 
 from ..models.meetups import MeetUpModel
-from ..utils.helpers import admin_required, auth_required
+from ..utils.auth import admin_required, auth_required
 
 
 class Meetups(Resource):
