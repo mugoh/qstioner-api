@@ -59,7 +59,7 @@ class RSVPTest(BaseTestCase):
         # Get Authorization token
 
         userH = user_res.get_json().get('Data')[0].get('token')
-        admin_auth = {"Authorization": "Bearer " + userH}
+        admin_auth = {"Authorization": "Bearer " + userH.split("'")[1]}
 
         response = self.get('api/v1/meetups/1/rsvp', headers=self.auth_header)
 
