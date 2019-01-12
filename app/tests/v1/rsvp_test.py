@@ -63,7 +63,7 @@ class RSVPTest(BaseTestCase):
 
         response = self.get('api/v1/meetups/1/rsvp', headers=admin_auth)
 
-        self.assertEqual(response.get_json(), 200,
+        self.assertEqual(response.status_code, 403,
                          msg="Fails to show a user Rsvp-ed meetups")
 
     def test_fetch_rsvp_for_as_non_current_user(self):
