@@ -67,8 +67,7 @@ class UserModel(AbstractModel):
     def get_all_users(cls):
         return [user.dictify() for user in users]
 
-    @classmethod
-    def encode_auth_token(cls, user_name):
+    def encode_auth_token(self, user_name):
         """
             Creates and returns an encoded authorization token.
             It uses the UserModel username attribute as the token identifier.
