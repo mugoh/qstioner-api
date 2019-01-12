@@ -14,7 +14,7 @@ from ..utils.auth import current_user_only, auth_required, get_auth_identity
 class Rsvps(Resource):
 
     @auth_required
-    def post(self, this_user, id, response):
+    def post(this_user, self, id, response):
         """
             Creates an rsvp with refrence to a meetup and the
             existing user's
@@ -75,7 +75,7 @@ class Rsvp(Resource):
 
     @auth_required
     @current_user_only
-    def get(self, this_user, id=None, username=None):
+    def get(this_user, self, id=None, username=None):
         """
             Allows the current user to see every existing
             meetups s/he has responded to an rsvp for
