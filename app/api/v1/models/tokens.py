@@ -8,10 +8,10 @@ class Token:
 
     def __init__(self, token):
         self.signature = token
-        self.save(token)
+        self.save()
 
     def save(self):
-        blacklisted_tokens.append(self)
+        blacklisted_tokens.add(self)
 
     @classmethod
     def check_if_blacklisted(cls, token):
