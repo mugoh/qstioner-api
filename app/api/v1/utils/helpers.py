@@ -73,3 +73,18 @@ def current_user_only(f):
             }, 403
         return f(*args, **kwars)
     return wrapper
+
+
+def auth_required():
+
+    if 'Authorization' not in request.headers:
+        auth_header = request.headers['Authorization']
+
+        try:
+            payload = auth_header.split(' ')[1]
+        except IndexError:
+
+            return {
+                "Status": 400,
+                "Message": "Please provide a valid Authorization Header"
+            }, 400
