@@ -2,6 +2,9 @@
     This module contains validators for user data passed in request
     arguments.
 """
+import re
+
+name_pattern = re.compile([r'A-Za-z+$'])
 
 
 def verify_pass(value):
@@ -10,10 +13,11 @@ def verify_pass(value):
     return value
 
 
-def verify_names(value, item):
-    try:
-        int(value)
-        raise AttributeError(f"{value} is wrong. {item} cannot be a number")
+def verify_name(value, item):
+    if ' ' in value:
+        raise ValueError(f'{value} has spaces. {item} should not have spaces')
 
-    except ValueError:
-        pass
+    elif not name_pattern.match(value):
+        raise ValueError(f'{value} has NUMBERS. \
+            {item} should contain letters only')
+    return value
