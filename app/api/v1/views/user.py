@@ -7,7 +7,7 @@ import random
 
 from ..models.users import UserModel
 from ..models.tokens import Token
-from ..utils.helpers import verify_pass
+from ..utils.helpers import verify_pass, verify_name
 from ..utils.auth import auth_required, get_raw_auth, get_auth_identity
 
 
@@ -18,14 +18,14 @@ class UsersRegistration(Resource):
 
     def post(self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
-        parser.add_argument('firstname', type=str)
-        parser.add_argument('lastname', type=str)
-        parser.add_argument('othername', type=str)
+        parser.add_argument('firstname', type=verify_name)
+        parser.add_argument('lastname', type=verify_name)
+        parser.add_argument('othername', type=verify_name)
         parser.add_argument('email', type=inputs.regex(
             r"[^@\s]+@[^@\s]+\.[a-zA-Z0-9]+$"), required=True,
             help="Oopsy! Email format not invented yet")
         parser.add_argument('phonenumber', type=int)
-        parser.add_argument('username', type=str)
+        parser.add_argument('username', type=verify_name)
         parser.add_argument('isAdmin', type=bool, default=False)
         parser.add_argument('password', required=True, type=verify_pass)
 
