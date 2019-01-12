@@ -73,7 +73,8 @@ class TestQuestions(BaseTestCase):
     def test_get_all_questions(self):
 
         response = self.client.get('api/v1/questions',
-                                   content_type='application/json')
+                                   content_type='application/json',
+                                   headers=self.auth_header)
         self.assertEqual(response.status_code, 200,
                          msg="Fails to get all questions")
 
