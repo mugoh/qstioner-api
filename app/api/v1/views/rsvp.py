@@ -97,6 +97,8 @@ class Rsvp(Resource):
         if username and UserModel.get_by_name(username):
             query_parameter = UserModel.get_by_name(username).id
 
+        # Handle these verifications in wrapper
+        """
         else:
             return {
                 "Status": 400,
@@ -108,6 +110,7 @@ class Rsvp(Resource):
                 "Status": 400,
                 "Error": "User id does not exist. Provide a valid id"
             }, 400
+        """
 
         rsvps = RsvpModel.get_all_rsvps(obj=True)
 
