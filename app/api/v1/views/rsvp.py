@@ -73,8 +73,9 @@ class Rsvps(Resource):
 
 
 class Rsvp(Resource):
-    decorators = [jwt_required, current_user_only]
 
+    @jwt_required
+    @current_user_only
     def get(self, id=None, username=None):
         """
             Allows the current user to see every existing
