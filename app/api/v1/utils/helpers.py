@@ -56,8 +56,10 @@ def current_user_only(f):
 
         try:
             uid = int(user)
-            user = [usr for usr in
-                    UserModel.get_all_users() if usr.get('id') == uid]
+            user = UserModel.get_by_id(uid)
+            if user:
+                user = user.username
+            print(user)
         except ValueError:
             user = user
         if this_user != user:
