@@ -6,12 +6,22 @@ from ...v1.views.user import get_jwt_identity
 
 
 current_user = None
+get_raw_auth = None
 
 
 def verify_pass(value):
     if len(value) < 6:
         raise ValueError("Password should be at least 6 charcters")
     return value
+
+
+def verify_names(value, item):
+    try:
+        int(value)
+        raise AttributeError(f"{value} is wrong. {item} cannot be a number")
+
+    except ValueError:
+        pass
 
 
 def admin_required(f):
@@ -70,7 +80,6 @@ def current_user_only(f):
             user = UserModel.get_by_id(uid)
             if user:
                 user = user.username
-            print(user)
         except ValueError:
             user = user
         if this_user != user:
@@ -113,7 +122,7 @@ def auth_required(f):
 
         try:
             user_identity = UserModel.decode_auth_token(payload)
-            global current_user
+            global current_user, get_raw_auth
             current_user = UserModel.get_by_name(user_identity)
 
         except:
