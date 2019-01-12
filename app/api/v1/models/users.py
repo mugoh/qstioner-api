@@ -95,7 +95,7 @@ class UserModel(AbstractModel):
         try:
             payload = jwt.decode(encoded_token,
                                  app.config.get('SECRET_KEY'),
-                                 algorithm='HS256')
+                                 algorithms='HS256')
             if Token.check_if_blacklisted(payload):
                 return {
                     "Status": 400,
