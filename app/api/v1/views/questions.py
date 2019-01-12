@@ -17,7 +17,7 @@ class Questions(Resource):
     """
     decorators = [auth_required]
 
-    def post(self, this_user):
+    def post(this_user, self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
 
         parser.add_argument('title', type=str, required=True)
@@ -74,7 +74,7 @@ class Question(Resource):
     """
     decorators = [auth_required]
 
-    def get(self, this_user, id):
+    def get(this_user, self, id):
         """
             Retrieves an individual question
         """
@@ -95,7 +95,7 @@ class QuestionVote(Resource):
         Upvotes or downvotes an existing question.
     """
     @auth_required
-    def patch(self, this_user, id, vote):
+    def patch(this_user, self, id, vote):
 
         # Verify existence of given question id
         if not QuestionModel.get_by_id(id):
