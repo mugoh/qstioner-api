@@ -59,7 +59,7 @@ class MeetUpTests(BaseTestCase):
                                    tags=['jump', 'eat', 'wake']
                                )),
                                headers=self.admin_auth)
-        self.assertEqual(res.status_code, 400,
+        self.assertEqual(res.status_code, 409,
                          msg="Fails. Creates an \
                          already existing meetup record")
 
