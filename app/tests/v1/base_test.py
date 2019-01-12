@@ -11,7 +11,7 @@ class BaseTestCase(unittest.TestCase):
 
         # create new user
         self.user_data = json.dumps(dict(
-            username="Domesticable Cow",
+            username="DomesticableCow",
             email="cow@mammals.milkable",
             password="pa55word"))
 
@@ -29,7 +29,7 @@ class BaseTestCase(unittest.TestCase):
 
         # Register admin user
         user_data = json.dumps(dict(
-            username="Domesticable Admin",
+            username="DomesticableAdmin",
             email="admin@mammals.milkable",
             password="pa55word",
             isAdmin=True))
@@ -41,7 +41,7 @@ class BaseTestCase(unittest.TestCase):
 
         user_res = self.client.post('api/v1/auth/login',
                                     data=json.dumps(dict(
-                                        username="Domesticable Admin",
+                                        username="DomesticableAdmin",
                                         email="admin@mammals.milkable",
                                         password="pa55word"
                                     )),
