@@ -5,6 +5,9 @@ from ...v1.models.users import UserModel
 from ...v1.views.user import get_jwt_identity
 
 
+current_user = None
+
+
 def verify_pass(value):
     if len(value) < 6:
         raise ValueError("Password should be at least 6 charcters")
@@ -12,6 +15,7 @@ def verify_pass(value):
 
 
 def admin_required(f):
+
     @wraps(f)
     def wrapper(*args, **kwargs):
 
@@ -75,9 +79,15 @@ def current_user_only(f):
     return wrapper
 
 
-def auth_required():
+def auth_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        if 'Authorization' not in request.headers:
+            return {
+                "Status": 400,
+                "Message": "Please provide a valid Authorization Header"
+            }, 400
 
-    if 'Authorization' not in request.headers:
         auth_header = request.headers['Authorization']
 
         try:
@@ -88,3 +98,27 @@ def auth_required():
                 "Status": 400,
                 "Message": "Please provide a valid Authorization Header"
             }, 400
+
+        if not payload:
+            return {
+                "Status": 400,
+                "Message": "Token is empty. Please provide a valid token"
+            }, 400
+
+        try:
+            user_identity = UserModel.decode_auth_token(payload)
+            global current_user
+            current_user = UserModel.get_by_name(user_identity)
+
+        except:
+            return {
+                "Status": 400,
+                "Message": "Invalid Token. Please provide a valid token"
+            }, 400
+
+        return f(current_user, *args, **kwargs)
+    return wrapper
+
+
+def get_auth_identity():
+    return current_user
