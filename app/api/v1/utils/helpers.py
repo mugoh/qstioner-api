@@ -33,6 +33,6 @@ def validate_json(f):
                 "Status": 400,
                 "Message": "That didn't work" +
                 " Please provide a valid json header"
-            }
+            }, 400
         return f(*args, **kwargs)
     return wrapper
