@@ -86,6 +86,16 @@ class UserModel(AbstractModel):
             app.config['SECRET_KEY'],
             algorithm='HS256')
 
+    @classmethod
+    def decode_auth_token(cls, encoded_token):
+        """
+            Decodes the authorzation token to get the payload
+            the retrieves the username from 'sub' attribute
+        """
+
+        payload = jwt.decode(encoded_token,
+                             app.config.get('SECRET_KEY', algorithm='HS256'))
+
     def dictify(self):
 
         return {
