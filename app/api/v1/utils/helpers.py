@@ -4,7 +4,7 @@
 """
 import re
 
-name_pattern = re.compile([r'A-Za-z+$'])
+name_pattern = re.compile(r'A-Za-z+$')
 
 
 def verify_pass(value):
@@ -18,6 +18,6 @@ def verify_name(value, item):
         raise ValueError(f'{value} has spaces. {item} should not have spaces')
 
     elif not name_pattern.match(value):
-        raise ValueError(f'{value} has NUMBERS. \
-            {item} should contain letters only')
+        raise ValueError(f'Oops! {value} has NUMBERS.' +
+                         f' {item} should contain letters only')
     return value
