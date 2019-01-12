@@ -86,12 +86,10 @@ class UserLogin(Resource):
                         Please give me the right thing, okay?"
             }, 400
 
-        user_token = create_access_token(identity=user.username)
-
         return {
             "Status": 201,
             "Data": [{"Message": f"Logged in as {args['username']}",
-                      "token": user_token,
+                      "token": user.encode_auth_token(user.username),
                       "user": repr(user)}]
         }, 201
 
