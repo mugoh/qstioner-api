@@ -61,9 +61,9 @@ class RSVPTest(BaseTestCase):
         userH = user_res.get_json().get('Data')[0].get('token')
         admin_auth = {"Authorization": "Bearer " + userH}
 
-        response = self.get('api/v1/meetups/1/rsvp', headers=admin_auth)
+        response = self.get('api/v1/meetups/1/rsvp', headers=self.auth_header)
 
-        self.assertEqual(response.status_code, 403,
+        self.assertEqual(response.status_code, 200,
                          msg="Fails to show a user Rsvp-ed meetups")
 
     def test_fetch_rsvp_for_as_non_current_user(self):
@@ -79,6 +79,14 @@ class RSVPTest(BaseTestCase):
 
         self.assertEqual(response.status_code, 200,
                          msg="Fails to show a user Rsvp-ed meetups")
+
+    def test_fetch_rsvp_for_non_present_user_name(self):
+
+        response = self.get('api/v1/meetups/Domesticable Non Admin/rsvp')
+
+        self.assertEqual(response.status_code, 403,
+                         msg="Fails allows unknow users\
+                         to see rsvps for others")
 
     def test_fetch_rsvp_for_user_none_parameters(self):
 
