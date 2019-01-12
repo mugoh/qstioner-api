@@ -7,6 +7,7 @@ import datetime
 from flask import current_app as app
 
 from .abstract_model import AbstractModel
+from .tokens import Token
 
 
 class UserModel(AbstractModel):

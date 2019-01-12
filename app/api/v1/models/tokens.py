@@ -4,7 +4,7 @@
 """
 
 
-class Tokens:
+class Token:
 
     def __init__(self, token):
         self.signature = token
