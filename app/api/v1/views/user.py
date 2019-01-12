@@ -7,7 +7,7 @@ import random
 
 from ..models.users import UserModel
 from ..models.tokens import Token
-from ..utils.helpers import verify_pass, verify_name
+from ..utils.helpers import verify_pass, verify_name, validate_json
 from ..utils.auth import auth_required, get_raw_auth, get_auth_identity
 
 
@@ -16,6 +16,7 @@ class UsersRegistration(Resource):
         This resource allows a user to create a new account.
     """
 
+    @validate_json
     def post(self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
         parser.add_argument('firstname', type=verify_name)
@@ -61,6 +62,7 @@ class UsersRegistration(Resource):
 
 class UserLogin(Resource):
 
+    @validate_json
     def post(self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
 
