@@ -87,11 +87,11 @@ class UserLogin(Resource):
             }, 400
 
         return {
-            "Status": 201,
+            "Status": 200,
             "Data": [{"Message": f"Logged in as {args['username']}",
-                      "token": user.encode_auth_token(user.username),
+                      "token": str(user.encode_auth_token(user.username)),
                       "user": repr(user)}]
-        }, 201
+        }, 200
 
 
 class UserLogout(Resource):
@@ -103,5 +103,5 @@ class UserLogout(Resource):
         Token(payload)
         return {
             "Status": "Success",
-            "Message": f"Logout {get_jwt_identity()}"
+            "Message": f"Logout {this_user}"
         }, 200
