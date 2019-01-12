@@ -4,7 +4,7 @@
 """
 import re
 
-name_pattern = re.compile(r'A-Za-z+$')
+name_pattern = re.compile(r'^[A-Za-z]+$')
 
 
 def verify_pass(value):
