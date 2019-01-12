@@ -101,7 +101,7 @@ class UserLogin(Resource):
 class UserLogout(Resource):
 
     @auth_required
-    def delete(self):
+    def delete(self, this_user):
         payload = get_raw_auth
 
         Token(payload)

@@ -2,11 +2,12 @@
     This module containes all Question resources.Question.
 """
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import auth_required, get_jwt_identity
 
 from ..models.questions import QuestionModel
 from ..models.users import UserModel
 from ..models.meetups import MeetUpModel
+from ..utils.helpers import get_auth_identity
 
 
 class Questions(Resource):
@@ -15,7 +16,7 @@ class Questions(Resource):
         new questions and perform requests on existing
         multiple questions.
     """
-    decorators = [jwt_required]
+    decorators = [auth_required]
 
     def post(self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
@@ -27,7 +28,7 @@ class Questions(Resource):
         args = parser.parse_args(strict=True)
 
         # Add user to question record
-        user = UserModel.get_by_name(get_jwt_identity())
+        user = UserModel.get_by_name(get_auth_identity)
         if user:
             args.update({
                 "user": user.id
@@ -72,7 +73,7 @@ class Question(Resource):
     """
         Performs requests on a single question
     """
-    decorators = [jwt_required]
+    decorators = [auth_required]
 
     def get(self, id):
         """
@@ -94,7 +95,7 @@ class QuestionVote(Resource):
     """
         Upvotes or downvotes an existing question.
     """
-    @jwt_required
+    @auth_required
     def patch(self, id, vote):
 
         # Verify existence of given question id
