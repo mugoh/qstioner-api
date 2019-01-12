@@ -8,7 +8,7 @@ from flask_restful import Resource
 from ..models.rsvp import RsvpModel
 from ..models.meetups import MeetUpModel
 from ..models.users import UserModel
-from ..utils.helpers import current_user_only, auth_required, current_user
+from ..utils.auth import current_user_only, auth_required, get_auth_identity
 
 
 class Rsvps(Resource):
@@ -43,7 +43,7 @@ class Rsvps(Resource):
                 "Message": "That meetup does not exist"
             }, 404
 
-        user = UserModel.get_by_name(current_user)
+        user = UserModel.get_by_name(get_auth_identity())
 
         user_id = getattr(user, 'id')
 
