@@ -48,11 +48,15 @@ def current_user_only(f):
         user = url_user_field[-2]
         this_user = get_jwt_identity()
 
+        # Comment out if manually testing
+        # Handled by missing auth header error
+        """
         if not this_user:
             return {
                 "Status": 403,
                 "Message": "You need to be logged in to do that"
             }, 403
+        """
 
         try:
             uid = int(user)
