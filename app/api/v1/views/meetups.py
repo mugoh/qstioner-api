@@ -1,9 +1,8 @@
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import jwt_required, get_jwt_identity
 import datetime
 
 from ..models.meetups import MeetUpModel
-from ..utils.helpers import admin_required
+from ..utils.helpers import admin_required, auth_required
 
 
 class Meetups(Resource):
@@ -11,7 +10,7 @@ class Meetups(Resource):
         This resource allows an admin user to create a meetup.
         It also makes it possible for any user to fetch all existing meetups
     """
-    @jwt_required
+    @auth_required
     @admin_required
     def post(self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
@@ -48,7 +47,7 @@ class MeetUp(Resource):
     """
         This resource fetches all existing meetup records
     """
-
+    @auth_required
     def get(self):
 
         return {
@@ -62,7 +61,7 @@ class MeetUpItem(Resource):
         Searches for a meetup by its id
         and returns a matching record.
     """
-
+    @auth_required
     def get(self, id):
 
         if not MeetUpModel.get_by_id(id):
