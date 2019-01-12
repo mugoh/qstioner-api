@@ -12,7 +12,7 @@ class Meetups(Resource):
     """
     @auth_required
     @admin_required
-    def post(self):
+    def post(self, this_user):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
         parser.add_argument('topic', type=str)
         parser.add_argument(
@@ -48,7 +48,7 @@ class MeetUp(Resource):
         This resource fetches all existing meetup records
     """
     @auth_required
-    def get(self):
+    def get(self, this_user):
 
         return {
             "Status": 200,
@@ -62,7 +62,7 @@ class MeetUpItem(Resource):
         and returns a matching record.
     """
     @auth_required
-    def get(self, id):
+    def get(self, this_user, id):
 
         if not MeetUpModel.get_by_id(id):
             return {
