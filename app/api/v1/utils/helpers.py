@@ -4,7 +4,7 @@ from flask import request
 from ...v1.models.users import UserModel
 
 current_user = None
-get_raw_auth = None
+raw_auth = None
 
 
 def verify_pass(value):
@@ -22,6 +22,9 @@ def verify_names(value, item):
         pass
 
 
+#
+# Authorizations
+
 def admin_required(f):
     """
         Protects endpoints accessible to admin user only.
@@ -34,20 +37,20 @@ def admin_required(f):
         # Uncomment when testing manually
         #
         # Verify Logged in
-        """if not get_jwt_identity():
+        """if not current_user:
             return {
                 "Status": 403,
                 "Error": "Please log in, okay?"
             }, 403
 
-        user = UserModel.get_by_name(get_jwt_identity())
+        user = UserModel.get_by_name(current_user)
         if not user:
             return {
                 "Status": 400,
                 "Error": "Identity unknown"
             }
     """
-        if not UserModel.get_by_name(get_jwt_identity()).isAdmin:
+        if not UserModel.get_by_name(current_user).isAdmin:
             return {
                 "Status": 403,
                 "Message": "Oops! Only an admin can do that"
@@ -57,11 +60,15 @@ def admin_required(f):
 
 
 def current_user_only(f):
+    """
+        Ensures the user changing the resource in a protected endpoint
+        is the one who created that resource.e.g Deleting a question
+    """
     @wraps(f)
     def wrapper(*args, **kwars):
         url_user_field = request.base_url.split('/')
         user = url_user_field[-2]
-        this_user = get_jwt_identity()
+        this_user = current_user
 
         # Comment out if manually testing
         # Handled by missing auth header error
@@ -120,9 +127,9 @@ def auth_required(f):
 
         try:
             user_identity = UserModel.decode_auth_token(payload)
-            global current_user, get_raw_auth
-            get_raw_auth = payload
-            current_user = UserModel.get_by_name(user_identity)
+
+            current_user = UserModel.get_by_name(user_identity).username
+            save_raw_payload(payload, current_user)
 
         except:
             return {
@@ -135,4 +142,24 @@ def auth_required(f):
 
 
 def get_auth_identity():
+    """
+        Returns the identity of the user accessing a protected
+        endpoint.
+    """
     return current_user
+
+
+def save_raw_payload(undecoded, usr):
+    """
+        Receives and saves current user identity and encoded token payload.
+    """
+    global raw_auth, current_user
+    raw_auth = undecoded
+    current_user = usr
+
+
+def get_raw_auth():
+    """
+        Returns the identity of the payload that logged this session.
+    """
+    return raw_auth
