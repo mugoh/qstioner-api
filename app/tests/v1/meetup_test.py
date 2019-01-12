@@ -25,7 +25,7 @@ class MeetUpTests(BaseTestCase):
 
     def test_create_new_meetup_twice(self):
         user_data = json.dumps(dict(
-            username="Domesticable Admin",
+            username="DomesticableAdmin",
             email="admin@mammals.milkable",
             password="pa55word",
             isAdmin=True))
@@ -40,7 +40,7 @@ class MeetUpTests(BaseTestCase):
 
         user_res = self.client.post('api/v1/auth/login',
                                     data=json.dumps(dict(
-                                        username="Domesticable Admin",
+                                        username="DomesticableAdmin",
                                         email="admin@mammals.milkable",
                                         password="pa55word"
                                     )),
