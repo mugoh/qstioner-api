@@ -11,7 +11,7 @@ class BaseTestCase(unittest.TestCase):
 
         # create new user
         self.user_data = json.dumps(dict(
-            username="Domesticable Cow",
+            username="DomesticableCow",
             email="cow@mammals.milkable",
             password="pa55word"))
 
@@ -25,11 +25,11 @@ class BaseTestCase(unittest.TestCase):
                                           content_type='application/json')
         user = json.loads(login_response.data.decode()
                           ).get("Data")[0].get('token')
-        self.auth_header = {"Authorization": "Bearer " + user}
+        self.auth_header = {"Authorization": "Bearer " + user.split("'")[1]}
 
         # Register admin user
         user_data = json.dumps(dict(
-            username="Domesticable Admin",
+            username="DomesticableAdmin",
             email="admin@mammals.milkable",
             password="pa55word",
             isAdmin=True))
@@ -41,7 +41,7 @@ class BaseTestCase(unittest.TestCase):
 
         user_res = self.client.post('api/v1/auth/login',
                                     data=json.dumps(dict(
-                                        username="Domesticable Admin",
+                                        username="DomesticableAdmin",
                                         email="admin@mammals.milkable",
                                         password="pa55word"
                                     )),
@@ -49,7 +49,7 @@ class BaseTestCase(unittest.TestCase):
         # Get Authorization token
 
         userH = user_res.get_json().get('Data')[0].get('token')
-        self.admin_auth = {"Authorization": "Bearer " + userH}
+        self.admin_auth = {"Authorization": "Bearer " + userH.split("'")[1]}
 
     def post(self, path, data=None, headers=None):
 

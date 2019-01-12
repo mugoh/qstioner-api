@@ -3,14 +3,12 @@
 """
 
 from flask_restful import Resource, reqparse, inputs
-from flask_jwt_extended import (
-    jwt_required, create_access_token, get_jwt_identity, get_raw_jwt)
 import random
 
 from ..models.users import UserModel
-from ..utils.helpers import verify_pass
-
-blacklisted_tokens = set()
+from ..models.tokens import Token
+from ..utils.helpers import verify_pass, verify_name
+from ..utils.auth import auth_required, get_raw_auth, get_auth_identity
 
 
 class UsersRegistration(Resource):
@@ -20,14 +18,14 @@ class UsersRegistration(Resource):
 
     def post(self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
-        parser.add_argument('firstname', type=str)
-        parser.add_argument('lastname', type=str)
-        parser.add_argument('othername', type=str)
+        parser.add_argument('firstname', type=verify_name)
+        parser.add_argument('lastname', type=verify_name)
+        parser.add_argument('othername', type=verify_name)
         parser.add_argument('email', type=inputs.regex(
             r"[^@\s]+@[^@\s]+\.[a-zA-Z0-9]+$"), required=True,
             help="Oopsy! Email format not invented yet")
         parser.add_argument('phonenumber', type=int)
-        parser.add_argument('username', type=str)
+        parser.add_argument('username', type=verify_name)
         parser.add_argument('isAdmin', type=bool, default=False)
         parser.add_argument('password', required=True, type=verify_pass)
 
@@ -70,7 +68,7 @@ class UserLogin(Resource):
             r"[^@\s]+@[^@\s]+\.[a-zA-Z0-9]+$"), required=True,
             help="Please provide a valid email. Cool?")
         parser.add_argument('password', type=str, required=True)
-        parser.add_argument('username', type=str)
+        parser.add_argument('username', type=verify_name)
 
         args = parser.parse_args(strict=True)
 
@@ -89,24 +87,29 @@ class UserLogin(Resource):
                         Please give me the right thing, okay?"
             }, 400
 
-        user_token = create_access_token(identity=user.username)
-
         return {
-            "Status": 201,
+            "Status": 200,
             "Data": [{"Message": f"Logged in as {args['username']}",
-                      "token": user_token,
+                      "token": str(user.encode_auth_token(user.username)),
                       "user": repr(user)}]
-        }, 201
+        }, 200
 
 
 class UserLogout(Resource):
 
-    @jwt_required
-    def delete(self):
-        jti = get_raw_jwt()['jti']
+    @auth_required
+    def delete(this_user, self):
+        payload = get_raw_auth()
 
-        blacklisted_tokens.add(jti)
+        if not Token.check_if_blacklisted(payload):
+            Token(payload)
+        else:
+            return {
+                "Status": 403,
+                "Message": f"You must be logged in to be able to log out"
+            }, 403
+
         return {
             "Status": "Success",
-            "Message": f"Logout {get_jwt_identity()}"
-        }, 201
+            "Message": f"Logout {get_auth_identity()}"
+        }, 200

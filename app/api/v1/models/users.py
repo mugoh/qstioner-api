@@ -2,10 +2,12 @@
     This file contains the model for users data.
 """
 from werkzeug.security import generate_password_hash, check_password_hash
+import jwt
+import datetime
+from flask import current_app as app
 
 from .abstract_model import AbstractModel
-
-users = []  # Persists user objects
+from .tokens import Token
 
 
 class UserModel(AbstractModel):
@@ -65,6 +67,48 @@ class UserModel(AbstractModel):
     def get_all_users(cls):
         return [user.dictify() for user in users]
 
+    def encode_auth_token(self, user_name):
+        """
+            Creates and returns an encoded authorization token.
+            It uses the UserModel username attribute as the token identifier.
+        """
+
+        payload = {
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(
+                days=app.config.get('AUTH_TOKEN_EXP_DAYS'),
+                seconds=app.config.get('AUTH_TOKEN_EXP_SECS')),
+            "iat": datetime.datetime.utcnow(),
+            "sub": user_name
+        }
+
+        return jwt.encode(
+            payload,
+            app.config['SECRET_KEY'],
+            algorithm='HS256')
+
+    @classmethod
+    def decode_auth_token(cls, encoded_token):
+        """
+            Decodes the authorzation token to get the payload
+            the retrieves the username from 'sub' attribute
+        """
+        try:
+            payload = jwt.decode(encoded_token,
+                                 app.config.get('SECRET_KEY'),
+                                 algorithms='HS256')
+            if Token.check_if_blacklisted(payload):
+                return {
+                    "Status": 400,
+                    "Message": "Token unsuable. Try signing in again"
+                }, 400
+            return payload['sub']
+
+        except (jwt.ExpiredSignatureError, jwt.InvalidTokenError) as er:
+            return {
+                "Status": 400,
+                "Message": "Token Invalid. Please log in again" + er
+            }, 400
+
     def dictify(self):
 
         return {
@@ -80,7 +124,10 @@ class UserModel(AbstractModel):
             "id": self.id
         }
 
-      # return self.__dict__
+        # return self.__dict__
 
     def __repr__(self):
         return '{Email} {Username}'.format(**self.dictify())
+
+
+users = []  # Persist user objects

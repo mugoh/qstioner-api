@@ -25,7 +25,7 @@ class MeetUpTests(BaseTestCase):
 
     def test_create_new_meetup_twice(self):
         user_data = json.dumps(dict(
-            username="Domesticable Admin",
+            username="DomesticableAdmin",
             email="admin@mammals.milkable",
             password="pa55word",
             isAdmin=True))
@@ -40,7 +40,7 @@ class MeetUpTests(BaseTestCase):
 
         user_res = self.client.post('api/v1/auth/login',
                                     data=json.dumps(dict(
-                                        username="Domesticable Admin",
+                                        username="DomesticableAdmin",
                                         email="admin@mammals.milkable",
                                         password="pa55word"
                                     )),
@@ -48,7 +48,7 @@ class MeetUpTests(BaseTestCase):
         # Get Authorization token
 
         userH = user_res.get_json().get('Data')[0].get('token')
-        self.admin_auth = {"Authorization": "Bearer " + userH}
+        self.admin_auth = {"Authorization": "Bearer " + userH.split("'")[1]}
 
         # Having happeningOn paramenter here gets cocky.
         res = self.client.post('api/v1/meetups',
@@ -69,6 +69,13 @@ class MeetUpTests(BaseTestCase):
                                    headers=self.auth_header)
         print(response.data.decode())
         self.assertEqual(response.status_code, 404)
+
+    def test_get_meetup_with_bad_auth_header(self):
+        response = self.client.get('api/v1/meetups/4',
+                                   content_type='application/json',
+                                   headers={"Authorization": "Bearer "})
+        print(response.data.decode())
+        self.assertEqual(response.status_code, 400)
 
     def test_create_new_meetup(self):
         res = self.client.post('api/v1/meetups',
