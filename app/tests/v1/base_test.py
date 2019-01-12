@@ -61,8 +61,10 @@ class BaseTestCase(unittest.TestCase):
                                headers=headers)
         return res
 
-    def get(self, path):
+    def get(self, path, headers=None):
+        if not headers:
+            headers = self.admin_auth
         res = self.client.get(path,
                               content_type='application/json',
-                              headers=self.admin_auth)
+                              headers=headers)
         return res
