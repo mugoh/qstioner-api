@@ -8,9 +8,7 @@ from flask_jwt_extended import (
 import random
 
 from ..models.users import UserModel
-from ..utils.helpers import verify_pass
-
-blacklisted_tokens = set()
+from ..utils.helpers import verify_pass, auth_required
 
 
 class UsersRegistration(Resource):
@@ -101,7 +99,7 @@ class UserLogin(Resource):
 
 class UserLogout(Resource):
 
-    @jwt_required
+    @auth_required
     def delete(self):
         jti = get_raw_jwt()['jti']
 
