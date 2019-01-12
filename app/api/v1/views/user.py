@@ -8,7 +8,8 @@ from flask_jwt_extended import (
 import random
 
 from ..models.users import UserModel
-from ..utils.helpers import verify_pass, auth_required
+from ..models.tokens import Token
+from ..utils.helpers import verify_pass, auth_required, get_raw_auth
 
 
 class UsersRegistration(Resource):
@@ -101,10 +102,10 @@ class UserLogout(Resource):
 
     @auth_required
     def delete(self):
-        jti = get_raw_jwt()['jti']
+        payload = get_raw_auth
 
-        blacklisted_tokens.add(jti)
+        Token(payload)
         return {
             "Status": "Success",
             "Message": f"Logout {get_jwt_identity()}"
-        }, 201
+        }, 200
