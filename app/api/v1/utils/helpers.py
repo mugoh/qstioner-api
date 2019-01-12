@@ -15,7 +15,10 @@ def verify_pass(value):
 
 
 def admin_required(f):
-
+    """
+        Protects endpoints accessible to admin user only.
+        Ensures only an admin user can access this endpoint.
+    """
     @wraps(f)
     def wrapper(*args, **kwargs):
 
@@ -80,6 +83,9 @@ def current_user_only(f):
 
 
 def auth_required(f):
+    """
+        Protects endpoints that require user authrorization for access
+    """
     @wraps(f)
     def wrapper(*args, **kwargs):
         if 'Authorization' not in request.headers:
