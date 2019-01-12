@@ -4,18 +4,17 @@
 """
 
 from flask_restful import Resource
-from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from ..models.rsvp import RsvpModel
 from ..models.meetups import MeetUpModel
 from ..models.users import UserModel
-from ..utils.helpers import current_user_only
+from ..utils.helpers import current_user_only, auth_required, current_user
 
 
 class Rsvps(Resource):
 
-    @jwt_required
-    def post(self, id, response):
+    @auth_required
+    def post(self, this_user, id, response):
         """
             Creates an rsvp with refrence to a meetup and the
             existing user's
@@ -44,7 +43,7 @@ class Rsvps(Resource):
                 "Message": "That meetup does not exist"
             }, 404
 
-        user = UserModel.get_by_name(get_jwt_identity())
+        user = UserModel.get_by_name(current_user)
 
         user_id = getattr(user, 'id')
 
@@ -74,9 +73,9 @@ class Rsvps(Resource):
 
 class Rsvp(Resource):
 
-    @jwt_required
+    @auth_required
     @current_user_only
-    def get(self, id=None, username=None):
+    def get(self, this_user, id=None, username=None):
         """
             Allows the current user to see every existing
             meetups s/he has responded to an rsvp for
