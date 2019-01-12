@@ -48,7 +48,7 @@ class MeetUpTests(BaseTestCase):
         # Get Authorization token
 
         userH = user_res.get_json().get('Data')[0].get('token')
-        self.admin_auth = {"Authorization": "Bearer " + userH}
+        self.admin_auth = {"Authorization": "Bearer " + userH.split("'")[1]}
 
         # Having happeningOn paramenter here gets cocky.
         res = self.client.post('api/v1/meetups',
@@ -59,7 +59,7 @@ class MeetUpTests(BaseTestCase):
                                    tags=['jump', 'eat', 'wake']
                                )),
                                headers=self.admin_auth)
-        self.assertEqual(res.status_code, 409,
+        self.assertEqual(res.status_code, 400,
                          msg="Fails. Creates an \
                          already existing meetup record")
 
