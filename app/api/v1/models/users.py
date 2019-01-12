@@ -93,9 +93,22 @@ class UserModel(AbstractModel):
             Decodes the authorzation token to get the payload
             the retrieves the username from 'sub' attribute
         """
+        try:
+            payload = jwt.decode(encoded_token,
+                                 app.config.get('SECRET_KEY'),
+                                 algorithm='HS256')
+            if Token.check_if_blacklisted(payload):
+                return {
+                    "Status": 400,
+                    "Message": "Token unsuable. Try signing in again"
+                }, 400
+            return payload['sub']
 
-        payload = jwt.decode(encoded_token,
-                             app.config.get('SECRET_KEY', algorithm='HS256'))
+        except (jwt.ExpiredSignatureError, jwt.InvalidTokenError) as er:
+            return {
+                "Status": 400,
+                "Message": "Token Invalid. Please log in again" + er
+            }, 400
 
     def dictify(self):
 
