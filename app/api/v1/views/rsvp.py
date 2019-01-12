@@ -25,12 +25,12 @@ class Rsvps(Resource):
 
         # Confirm response is valid
 
-        ex = ['yes', 'no', 'maybe']
+        expected_responses = ['yes', 'no', 'maybe']
 
         err_msg = "Your response is not known. Make it: " + \
-            str(ex[:-1]) + ' or ' + str(ex[-1])
+            str(expected_responses[:-1]) + ' or ' + str(expected_responses[-1])
 
-        if response not in ex:
+        if response not in expected_responses:
             return {
                 "Status": 400,
                 "Message": err_msg
@@ -73,8 +73,9 @@ class Rsvps(Resource):
 
 
 class Rsvp(Resource):
-    decorators = [jwt_required, current_user_only]
 
+    @jwt_required
+    @current_user_only
     def get(self, id=None, username=None):
         """
             Allows the current user to see every existing
@@ -96,11 +97,20 @@ class Rsvp(Resource):
         if username and UserModel.get_by_name(username):
             query_parameter = UserModel.get_by_name(username).id
 
+        # Handle these verifications in wrapper
+        """
         else:
             return {
                 "Status": 400,
                 "Error": "Username not registered. Provide a valid username"
             }, 400
+
+        if query_parameter == 'id' and not UserModel.get_by_id(id):
+            return {
+                "Status": 400,
+                "Error": "User id does not exist. Provide a valid id"
+            }, 400
+        """
 
         rsvps = RsvpModel.get_all_rsvps(obj=True)
 
