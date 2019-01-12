@@ -89,7 +89,7 @@ class AuthTestCases(BaseTestCase):
                                     data=self.user_data,
                                     content_type='application/json')
 
-        self.assertEqual(response.status_code, 201,
+        self.assertEqual(response.status_code, 200,
                          msg="Fails to login registered user")
 
     def test_login_with_invalid_email(self):
@@ -140,5 +140,5 @@ class AuthTestCases(BaseTestCase):
                                       headers=self.auth_header,
                                       data=self.user_data,
                                       content_type='application/json')
-        self.assertEqual(response.status_code, 201,
+        self.assertEqual(response.status_code, 200,
                          msg="Fails to logout user")
