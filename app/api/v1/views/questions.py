@@ -7,7 +7,6 @@ from ..models.questions import QuestionModel
 from ..models.users import UserModel
 from ..models.meetups import MeetUpModel
 from ..utils.auth import auth_required
-from ..utils.helpers import validate_json
 
 
 class Questions(Resource):
