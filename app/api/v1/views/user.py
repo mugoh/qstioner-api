@@ -68,7 +68,7 @@ class UserLogin(Resource):
             r"[^@\s]+@[^@\s]+\.[a-zA-Z0-9]+$"), required=True,
             help="Please provide a valid email. Cool?")
         parser.add_argument('password', type=str, required=True)
-        parser.add_argument('username', type=str)
+        parser.add_argument('username', type=verify_name)
 
         args = parser.parse_args(strict=True)
 
