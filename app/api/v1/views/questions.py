@@ -6,7 +6,7 @@ from flask_restful import Resource, reqparse
 from ..models.questions import QuestionModel
 from ..models.users import UserModel
 from ..models.meetups import MeetUpModel
-from ..utils.helpers import get_auth_identity, auth_required
+from ..utils.helpers import auth_required
 
 
 class Questions(Resource):
@@ -17,7 +17,7 @@ class Questions(Resource):
     """
     decorators = [auth_required]
 
-    def post(self):
+    def post(self, this_user):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
 
         parser.add_argument('title', type=str, required=True)
@@ -27,7 +27,7 @@ class Questions(Resource):
         args = parser.parse_args(strict=True)
 
         # Add user to question record
-        user = UserModel.get_by_name(get_auth_identity)
+        user = UserModel.get_by_name(this_user)
         if user:
             args.update({
                 "user": user.id
@@ -74,7 +74,7 @@ class Question(Resource):
     """
     decorators = [auth_required]
 
-    def get(self, id):
+    def get(self, this_user, id):
         """
             Retrieves an individual question
         """
@@ -95,7 +95,7 @@ class QuestionVote(Resource):
         Upvotes or downvotes an existing question.
     """
     @auth_required
-    def patch(self, id, vote):
+    def patch(self, this_user, id, vote):
 
         # Verify existence of given question id
         if not QuestionModel.get_by_id(id):
