@@ -34,7 +34,7 @@ class AuthTestCases(BaseTestCase):
 
     def test_register_with_invalid_email(self):
         user_data = json.dumps(dict(
-            username="Domesticable Cow",
+            username="DomesticableCow",
             email="cow@mammals",
             password="pa55word"))
 
@@ -47,7 +47,7 @@ class AuthTestCases(BaseTestCase):
 
     def test_register_with_existing_username(self):
         user_data = json.dumps(dict(
-            username="Domesticable Cow",
+            username="DomesticableCow",
             email="cow@mammals.new",
             password="pa55word"))
 
@@ -60,7 +60,7 @@ class AuthTestCases(BaseTestCase):
 
     def test_register_with_invalid_password(self):
         user_data = json.dumps(dict(
-            username="Domesticable Cow",
+            username="DomesticableCow",
             email="cow@mammals.milkable",
             password="pass"))
 
@@ -94,7 +94,7 @@ class AuthTestCases(BaseTestCase):
 
     def test_login_with_invalid_email(self):
         user_data = json.dumps(dict(
-            username="Domesticable Cow",
+            username="DomesticableCow",
             email="cow@mammals",
             password="pa55word"))
 
@@ -107,7 +107,7 @@ class AuthTestCases(BaseTestCase):
 
     def test_login_with_incorrect_password(self):
         user_data = json.dumps(dict(
-            username="Domesticable Cow",
+            username="DomesticableCow",
             email="cow@mammals.milkable",
             password="password"))
 
@@ -120,7 +120,7 @@ class AuthTestCases(BaseTestCase):
 
     def test_login_with_unregistered_email(self):
         user_data = json.dumps(dict(
-            username="Domesticable Cow",
+            username="DomesticableCow",
             email="cow@mammals.alien",
             password="pa55word"))
 
