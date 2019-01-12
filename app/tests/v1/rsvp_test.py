@@ -54,12 +54,12 @@ class RSVPTest(BaseTestCase):
 
         response = self.get('api/v1/meetups/Domesticable Admin/rsvp')
 
-        self.assertEqual(response.status_code, 200,
+        self.assertEqual(response.get_json(), 200,
                          msg="Fails to show a user Rsvp-ed meetups")
 
     def test_fetch_rsvp_for_user_none_parameters(self):
 
         response = self.get('api/v1/meetups/''/rsvp')
 
-        self.assertEqual(response.status_code, 404,
+        self.assertEqual(response.get_json(), 404,
                          msg="Fails to show a user error for invalid args")

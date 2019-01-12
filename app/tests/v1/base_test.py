@@ -51,15 +51,18 @@ class BaseTestCase(unittest.TestCase):
         userH = user_res.get_json().get('Data')[0].get('token')
         self.admin_auth = {"Authorization": "Bearer " + userH}
 
-    def post(self, path, data=None):
+    def post(self, path, data=None, headers=None):
+
+        if not headers:
+            headers = self.auth_header
         res = self.client.post(path,
                                data=data,
                                content_type='application/json',
-                               headers=self.auth_header)
+                               headers=headers)
         return res
 
     def get(self, path):
         res = self.client.get(path,
                               content_type='application/json',
-                              headers=self.auth_header)
+                              headers=self.admin_auth)
         return res
