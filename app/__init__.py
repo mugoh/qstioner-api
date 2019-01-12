@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_jwt_extended import JWTManager
 
 from app.api.v1 import auth_blueprint, app_blueprint
 from app.api.v1.views.user import blacklisted_tokens
@@ -11,14 +10,7 @@ def create_app(config_setting):
     app.register_blueprint(auth_blueprint)
     app.register_blueprint(app_blueprint)
 
-    jwt = JWTManager(app)
-
     app.config.from_object(
         APP_CONFIG[config_setting.strip().lower()])
-
-    @jwt.token_in_blacklist_loader
-    def check_blacklisted_token(token):
-        jti = token['jti']
-        return jti in blacklisted_tokens
 
     return app
