@@ -2,8 +2,6 @@ from functools import wraps
 from flask import request
 
 from ...v1.models.users import UserModel
-from ...v1.views.user import get_jwt_identity
-
 
 current_user = None
 get_raw_auth = None
