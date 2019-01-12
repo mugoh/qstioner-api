@@ -55,6 +55,13 @@ class UserModel(AbstractModel):
         return user[0] if user else None
 
     @classmethod
+    def get_by_id(cls, usr_id):
+        usr = [user for user in users
+               if getattr(user, 'id') == usr_id]
+
+        return usr[0] if usr else None
+
+    @classmethod
     def get_all_users(cls):
         return [user.dictify() for user in users]
 
