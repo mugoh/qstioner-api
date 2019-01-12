@@ -18,7 +18,6 @@ class Questions(Resource):
     """
     decorators = [auth_required]
 
-    @validate_json
     def post(this_user, self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
 
@@ -97,7 +96,6 @@ class QuestionVote(Resource):
         Upvotes or downvotes an existing question.
     """
     @auth_required
-    @validate_json
     def patch(this_user, self, id, vote):
 
         # Verify existence of given question id
