@@ -7,7 +7,7 @@ import random
 
 from ..models.users import UserModel
 from ..models.tokens import Token
-from ..utils.helpers import verify_pass, auth_required, get_raw_auth
+from ..utils.helpers import verify_pass, auth_required, get_raw_auth, get_auth_identity
 
 
 class UsersRegistration(Resource):
@@ -97,11 +97,18 @@ class UserLogin(Resource):
 class UserLogout(Resource):
 
     @auth_required
-    def delete(self, this_user):
-        payload = get_raw_auth
+    def delete(this_user, self):
+        payload = get_raw_auth()
 
-        Token(payload)
+        if not Token.check_if_blacklisted(payload):
+            Token(payload)
+        else:
+            return {
+                "Status": 403,
+                "Message": f"You must be logged in to be able to log out"
+            }, 403
+
         return {
             "Status": "Success",
-            "Message": f"Logout {this_user}"
+            "Message": f"Logout {self}"
         }, 200
