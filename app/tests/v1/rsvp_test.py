@@ -39,7 +39,7 @@ class RSVPTest(BaseTestCase):
     def test_fetch_rsvp_for_user(self):
 
         user_data = json.dumps(dict(
-            username="Domesticable Admin",
+            username="DomesticableAdmin",
             email="admin@mammals.milkable",
             password="pa55word",
             isAdmin=True))
@@ -51,7 +51,7 @@ class RSVPTest(BaseTestCase):
 
         user_res = self.client.post('api/v1/auth/login',
                                     data=json.dumps(dict(
-                                        username="Domesticable Admin",
+                                        username="DomesticableAdmin",
                                         email="admin@mammals.milkable",
                                         password="pa55word"
                                     )),
@@ -75,14 +75,14 @@ class RSVPTest(BaseTestCase):
 
     def test_fetch_rsvp_for_user_name(self):
 
-        response = self.get('api/v1/meetups/Domesticable Admin/rsvp')
+        response = self.get('api/v1/meetups/DomesticableAdmin/rsvp')
 
         self.assertEqual(response.status_code, 200,
                          msg="Fails to show a user Rsvp-ed meetups")
 
     def test_fetch_rsvp_for_non_present_user_name(self):
 
-        response = self.get('api/v1/meetups/Domesticable Non Admin/rsvp')
+        response = self.get('api/v1/meetups/DomesticableNon Admin/rsvp')
 
         self.assertEqual(response.status_code, 403,
                          msg="Fails allows unknow users\
