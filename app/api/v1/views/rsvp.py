@@ -9,13 +9,11 @@ from ..models.rsvp import RsvpModel
 from ..models.meetups import MeetUpModel
 from ..models.users import UserModel
 from ..utils.auth import current_user_only, auth_required, get_auth_identity
-from ..utils.helpers import validate_json
 
 
 class Rsvps(Resource):
 
     @auth_required
-    @validate_json
     def post(this_user, self, id, response):
         """
             Creates an rsvp with refrence to a meetup and the
