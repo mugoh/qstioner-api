@@ -25,12 +25,12 @@ class Rsvps(Resource):
 
         # Confirm response is valid
 
-        ex = ['yes', 'no', 'maybe']
+        expected_responses = ['yes', 'no', 'maybe']
 
         err_msg = "Your response is not known. Make it: " + \
-            str(ex[:-1]) + ' or ' + str(ex[-1])
+            str(expected_responses[:-1]) + ' or ' + str(expected_responses[-1])
 
-        if response not in ex:
+        if response not in expected_responses:
             return {
                 "Status": 400,
                 "Message": err_msg
