@@ -57,7 +57,6 @@ class Questions(Resource):
             "Data": [new_questn.dictify()]
         }, 201
 
-    @auth_required
     def get(this_user, self):
         """
             Returns all exsisting questions
