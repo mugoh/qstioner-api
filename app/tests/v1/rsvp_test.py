@@ -70,15 +70,14 @@ class RSVPTest(BaseTestCase):
 
         response = self.get('api/v1/meetups/7/rsvp')
 
-        self.assertTrue("You need to be logged in "
-                        in response.get_json().get('Message'),
-                        msg="Fails to user authenticity when fetching RSVPs")
+        self.assertEqual(response.status_code, 403,
+                         msg="Fails to check current user when fetching rsvps")
 
     def test_fetch_rsvp_for_user_name(self):
 
         response = self.get('api/v1/meetups/Domesticable Admin/rsvp')
 
-        self.assertEqual(response.get_json(), 200,
+        self.assertEqual(response.status_code, 200,
                          msg="Fails to show a user Rsvp-ed meetups")
 
     def test_fetch_rsvp_for_user_none_parameters(self):
