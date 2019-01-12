@@ -103,7 +103,7 @@ class Rsvp(Resource):
                 "Error": "Username not registered. Provide a valid username"
             }, 400
 
-        if id and not UserModel.get_by_id(id):
+        if query_parameter == 'id' and not UserModel.get_by_id(id):
             return {
                 "Status": 400,
                 "Error": "User id does not exist. Provide a valid id"
