@@ -121,6 +121,7 @@ def auth_required(f):
         try:
             user_identity = UserModel.decode_auth_token(payload)
             global current_user, get_raw_auth
+            get_raw_auth = payload
             current_user = UserModel.get_by_name(user_identity)
 
         except:
