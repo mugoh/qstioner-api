@@ -7,7 +7,8 @@ import random
 
 from ..models.users import UserModel
 from ..models.tokens import Token
-from ..utils.helpers import verify_pass, auth_required, get_raw_auth, get_auth_identity
+from ..utils.helpers import verify_pass
+from ..utils.auth import auth_required, get_raw_auth, get_auth_identity
 
 
 class UsersRegistration(Resource):
@@ -110,5 +111,5 @@ class UserLogout(Resource):
 
         return {
             "Status": "Success",
-            "Message": f"Logout {self}"
+            "Message": f"Logout {get_auth_identity()}"
         }, 200
