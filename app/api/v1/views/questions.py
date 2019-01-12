@@ -6,7 +6,7 @@ from flask_restful import Resource, reqparse
 from ..models.questions import QuestionModel
 from ..models.users import UserModel
 from ..models.meetups import MeetUpModel
-from ..utils.helpers import auth_required
+from ..utils.auth import auth_required
 
 
 class Questions(Resource):
