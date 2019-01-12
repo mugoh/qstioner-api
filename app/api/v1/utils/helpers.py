@@ -23,16 +23,3 @@ def verify_name(value, item):
         raise ValueError(f'Oops! {value} has NUMBERS.' +
                          f' {item} should contain letters only')
     return value
-
-
-def validate_json(f):
-    @wraps(f)
-    def wrapper(*args, **kwargs):
-        if not request.json:
-            return {
-                "Status": 400,
-                "Message": "That didn't work" +
-                " Please provide a valid json header"
-            }, 400
-        return f(*args, **kwargs)
-    return wrapper
