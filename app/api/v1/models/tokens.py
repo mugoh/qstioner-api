@@ -14,9 +14,9 @@ class Token:
         blacklisted_tokens.add(self)
 
     @classmethod
-    def check_if_blacklisted(cls, token):
-        return any([token for token in blacklisted_tokens if
-                    getattr(token, 'signature') == token])
+    def check_if_blacklisted(cls, given_token):
+        return [token for token in blacklisted_tokens if
+                getattr(token, 'signature') == str(given_token)]
 
 
 blacklisted_tokens = set()
