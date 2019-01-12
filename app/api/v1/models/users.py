@@ -4,7 +4,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 import datetime
-from app import app
+from flask import current_app as app
 
 from .abstract_model import AbstractModel
 
