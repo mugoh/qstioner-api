@@ -3,6 +3,7 @@ import datetime
 
 from ..models.meetups import MeetUpModel
 from ..utils.auth import admin_required, auth_required
+from ..utils.helpers import validate_json
 
 
 class Meetups(Resource):
@@ -12,6 +13,7 @@ class Meetups(Resource):
     """
     @auth_required
     @admin_required
+    @validate_json
     def post(this_user, self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
         parser.add_argument('topic', type=str)
