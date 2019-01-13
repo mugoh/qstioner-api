@@ -7,7 +7,7 @@ from flasgger import swag_from
 from ..models.questions import QuestionModel
 from ..models.users import UserModel
 from ..models.meetups import MeetUpModel
-from ..utils.auth import auth_required
+from ..utils.auth import auth_required, get_auth_identity
 
 
 class Questions(Resource):
@@ -29,7 +29,7 @@ class Questions(Resource):
         args = parser.parse_args(strict=True)
 
         # Add user to question record
-        user = UserModel.get_by_name(this_user)
+        user = UserModel.get_by_name(get_auth_identity())
         if user:
             args.update({
                 "user": user.id
