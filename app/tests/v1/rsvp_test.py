@@ -70,7 +70,7 @@ class RSVPTest(BaseTestCase):
 
         response = self.get('api/v1/meetups/7/rsvp')
 
-        self.assertEqual(response.status_code, 403,
+        self.assertEqual(response.status_code, 404,
                          msg="Fails to check current user when fetching rsvps")
 
     def test_fetch_rsvp_for_user_name(self):
@@ -84,7 +84,7 @@ class RSVPTest(BaseTestCase):
 
         response = self.get('api/v1/meetups/DomesticableNon Admin/rsvp')
 
-        self.assertEqual(response.status_code, 403,
+        self.assertEqual(response.status_code, 404,
                          msg="Fails allows unknow users\
                          to see rsvps for others")
 

@@ -88,31 +88,11 @@ class Rsvp(Resource):
 
         query_parameter = next((item for item in [id, username]
                                 if item is not None), None)
-        if not query_parameter:
-            return {
-                "Status": 400,
-                "Error": "Provide a valid username or user id"
-            }, 400
 
         # Get user id
         # Rsvp stores user by id
         if username and UserModel.get_by_name(username):
             query_parameter = UserModel.get_by_name(username).id
-
-        # Handle these verifications in wrapper
-        """
-        else:
-            return {
-                "Status": 400,
-                "Error": "Username not registered. Provide a valid username"
-            }, 400
-
-        if query_parameter == 'id' and not UserModel.get_by_id(id):
-            return {
-                "Status": 400,
-                "Error": "User id does not exist. Provide a valid id"
-            }, 400
-        """
 
         rsvps = RsvpModel.get_all_rsvps(obj=True)
 

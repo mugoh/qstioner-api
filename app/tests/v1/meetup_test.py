@@ -83,7 +83,61 @@ class MeetUpTests(BaseTestCase):
                                data=json.dumps(dict(
                                    topic="Meats can Happen",
                                    location="Over Here",
-                                   tags=['jump', 'eat', 'wake']
+                                   tags=['jump', 'eat', 'wake'],
+                                   happeningOn='2019-09-09T20:00:00'
                                )),
                                headers=self.admin_auth)
-        self.assertEqual(res.status_code, 201)
+        self.assertEqual(res.status_code, 409)
+
+    def test_delete_missing_meetup(self):
+        res = self.client.delete('api/v1/meetups/6',
+                                 content_type='application/json',
+                                 headers=self.admin_auth)
+        self.assertEqual(res.status_code, 404)
+
+    def test_delete_missing_meetup_with_bad_auth_header(self):
+        res = self.client.delete('api/v1/meetups/6',
+                                 content_type='application/json',
+                                 headers={"Authorization": "Bearer "})
+        self.assertEqual(res.status_code, 400)
+
+    def test_delete_missing_meetup__bad_auth_header(self):
+        res = self.client.delete('api/v1/meetups/6',
+                                 content_type='application/json',
+                                 headers={"Authorization": "Bearer"})
+        self.assertEqual(res.status_code, 400)
+
+    def test_delete_missing_meetup__bad_auth_payload(self):
+        res = self.client.delete('api/v1/meetups/6',
+                                 content_type='application/json',
+                                 headers={"Authorization": "Bearer bad"})
+        self.assertEqual(res.status_code, 400)
+
+    def test_delete_meetup(self):
+
+        self.client.post('api/v1/meetups',
+                         content_type='application/json',
+                         data=json.dumps(dict(
+                             topic="Meats can Happen",
+                             location="Over Here",
+                             tags=['jump', 'eat', 'wake'],
+                             happeningOn='2019-09-09T20:00:00'
+                         )),
+                         headers=self.admin_auth)
+
+        res = self.client.delete('api/v1/meetups/1',
+                                 content_type='application/json',
+                                 headers=self.admin_auth)
+        self.assertEqual(res.status_code, 200)
+
+    def test_create_meetup_with_invalid_date(self):
+        res = self.client.post('api/v1/meetups',
+                               content_type='application/json',
+                               data=json.dumps(dict(
+                                   topic="Meats can Happen",
+                                   location="Over Here",
+                                   tags=['jump', 'eat', 'wake'],
+                                   happeningOn='2019-08-08 20'
+                               )),
+                               headers=self.admin_auth)
+        self.assertEqual(res.status_code, 400)

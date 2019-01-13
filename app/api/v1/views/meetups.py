@@ -3,7 +3,7 @@ from flasgger import swag_from
 import datetime
 
 from ..models.meetups import MeetUpModel
-from ..utils.auth import admin_required, auth_required
+from ..utils.auth import admin_required, auth_required, current_user_only
 from ..utils.helpers import validate_date
 
 
@@ -76,4 +76,20 @@ class MeetUpItem(Resource):
         return {
             "Status": 200,
             "Data": [MeetUpModel.get_by_id(id)]
+        }, 200
+
+    @auth_required
+    @swag_from('docs/meetup_delete.yml')
+    def delete(this_user, self, id):
+        meetup = MeetUpModel.get_by_id(id, obj=True)
+        if not meetup:
+            return {
+                "Status": 404,
+                "Error": "Meetup non-existent"
+            }, 404
+        else:
+            meetup.delete()
+        return {
+            "Status": 200,
+            "Message": "MeetUp deleted"
         }, 200

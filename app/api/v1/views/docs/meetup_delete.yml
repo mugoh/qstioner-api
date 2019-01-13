@@ -12,7 +12,7 @@ parameters:
   type: string
   required: true
 - in: path
-  name: Meetup_id
+  name: id
   type: integer
   required: true
   description: The id of the Meetup to delete.
@@ -22,6 +22,6 @@ responses:
   400:
     description: Bad Request. Validation failed
   403:
-    description: Unauthorized, response when Attendant tries to delete a Meetup
+    description: Unauthorized, response when anauthorized user tries to delete a Meetup
   404:
     description: Returned when Meetup with id specified does not exist.
