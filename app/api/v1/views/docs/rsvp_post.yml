@@ -1,6 +1,7 @@
 Respond to a Meetup's RSVP 
 This endpoint allows the posting of a RSVP to a meetup.
 Only a signed in user can create a RSVP.
+The rsvp is either a 'yes' 'no', or 'maybe'
 ---
 tags:
 - Meetup RSVPs
