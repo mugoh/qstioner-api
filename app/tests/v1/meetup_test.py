@@ -95,6 +95,24 @@ class MeetUpTests(BaseTestCase):
                                  headers=self.admin_auth)
         self.assertEqual(res.status_code, 404)
 
+    def test_delete_missing_meetup_with_bad_auth_header(self):
+        res = self.client.delete('api/v1/meetups/6',
+                                 content_type='application/json',
+                                 headers={"Authorization": "Bearer "})
+        self.assertEqual(res.status_code, 400)
+
+    def test_delete_missing_meetup__bad_auth_header(self):
+        res = self.client.delete('api/v1/meetups/6',
+                                 content_type='application/json',
+                                 headers={"Authorization": "Bearer"})
+        self.assertEqual(res.status_code, 400)
+
+    def test_delete_missing_meetup__bad_auth_payload(self):
+        res = self.client.delete('api/v1/meetups/6',
+                                 content_type='application/json',
+                                 headers={"Authorization": "Bearer bad"})
+        self.assertEqual(res.status_code, 400)
+
     def test_delete_meetup(self):
 
         self.client.post('api/v1/meetups',
