@@ -4,6 +4,7 @@ import datetime
 
 from ..models.meetups import MeetUpModel
 from ..utils.auth import admin_required, auth_required
+from ..utils.helpers import validate_date
 
 
 class Meetups(Resource):
@@ -18,8 +19,7 @@ class Meetups(Resource):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
         parser.add_argument('topic', type=str, required=True)
         parser.add_argument(
-            'happeningOn',
-            type=lambda t: datetime.strptime(t, '%Y-%m-%dT%H:%M:%S'),
+            'happeningOn', type=validate_date,
             default=datetime.datetime.utcnow().isoformat())
         parser.add_argument('tags', type=str, action='append')
         parser.add_argument('location', type=str, required=True)
