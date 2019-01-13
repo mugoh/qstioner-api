@@ -19,10 +19,10 @@ parameters:
     properties:
       email:
         type: string
-        default: domestic@mammals.milk
+        example: domestic@mammals.milk
       password:
         type: string
-        default: pa55word
+        example: pa55word
 responses:
   200:
     description: Success, login successful, access token is generated and returned in response body
