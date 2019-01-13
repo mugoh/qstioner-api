@@ -59,6 +59,7 @@ class Questions(Resource):
             "Data": [new_questn.dictify()]
         }, 201
 
+    @swag_from('docs/questions_get.yml')
     def get(this_user, self):
         """
             Returns all exsisting questions
