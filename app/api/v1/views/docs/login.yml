@@ -4,7 +4,7 @@ Both an Administrator and a non-admin user can use this endpoint
 to access protected resources.
 ---
 tags:
-- auth
+- Authorization
 consumes:
 - application/json
 parameters:
