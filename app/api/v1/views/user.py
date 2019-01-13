@@ -102,6 +102,7 @@ class UserLogin(Resource):
 class UserLogout(Resource):
 
     @auth_required
+    @swag_from('docs/auth_logout.yml')
     def delete(this_user, self):
         payload = get_raw_auth()
 
