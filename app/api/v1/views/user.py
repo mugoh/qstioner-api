@@ -3,6 +3,7 @@
 """
 
 from flask_restful import Resource, reqparse, inputs
+from flasgger import swag_from
 import random
 
 from ..models.users import UserModel
@@ -16,6 +17,7 @@ class UsersRegistration(Resource):
         This resource allows a user to create a new account.
     """
 
+    @swag_from('docs/auth_register.yml')
     def post(self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
         parser.add_argument('firstname', type=verify_name)
@@ -52,6 +54,7 @@ class UsersRegistration(Resource):
             "Data": user.dictify()
         }
 
+    @swag_from('docs/auth_get_users.yml')
     def get(self):
         return {
             "Status": 200,
@@ -61,6 +64,7 @@ class UsersRegistration(Resource):
 
 class UserLogin(Resource):
 
+    @swag_from('docs/login.yml')
     def post(self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
 
@@ -76,20 +80,20 @@ class UserLogin(Resource):
 
         if not user:
             return {
-                "Status": 400,
+                "Status": 404,
                 "Message": "Account unknown. Maybe register?"
-            }, 400
+            }, 404
 
         elif not user.check_password(args.get('password')):
             return {
-                "Status": 400,
+                "Status": 403,
                 "Message": "Incorrect password.\
                         Please give me the right thing, okay?"
-            }, 400
+            }, 403
 
         return {
             "Status": 200,
-            "Data": [{"Message": f"Logged in as {args['username']}",
+            "Data": [{"Message": f"Logged in as {user.username}",
                       "token": str(user.encode_auth_token(user.username)),
                       "user": repr(user)}]
         }, 200
@@ -98,6 +102,7 @@ class UserLogin(Resource):
 class UserLogout(Resource):
 
     @auth_required
+    @swag_from('docs/auth_logout.yml')
     def delete(this_user, self):
         payload = get_raw_auth()
 
@@ -113,3 +118,14 @@ class UserLogout(Resource):
             "Status": "Success",
             "Message": f"Logout {get_auth_identity()}"
         }, 200
+
+
+USER_SCHEMA = {
+    'type': 'object',
+    'maxProperties': 3,
+    'properties': {
+        'email': {'type': 'string'},
+        'username': {'type': 'string'},
+        'password': {'type': 'string'}
+    },
+    'required': ['email', 'password']}

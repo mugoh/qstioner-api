@@ -4,6 +4,7 @@
 """
 
 from flask_restful import Resource
+from flasgger import swag_from
 
 from ..models.rsvp import RsvpModel
 from ..models.meetups import MeetUpModel
@@ -14,6 +15,7 @@ from ..utils.auth import current_user_only, auth_required, get_auth_identity
 class Rsvps(Resource):
 
     @auth_required
+    @swag_from('docs/rsvp_post.yml')
     def post(this_user, self, id, response):
         """
             Creates an rsvp with refrence to a meetup and the
@@ -75,6 +77,7 @@ class Rsvp(Resource):
 
     @auth_required
     @current_user_only
+    @swag_from('docs/rsvps_user_get.yml')
     def get(this_user, self, id=None, username=None):
         """
             Allows the current user to see every existing
