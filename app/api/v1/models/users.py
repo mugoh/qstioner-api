@@ -96,11 +96,6 @@ class UserModel(AbstractModel):
             payload = jwt.decode(encoded_token,
                                  app.config.get('SECRET_KEY'),
                                  algorithms='HS256')
-            if Token.check_if_blacklisted(payload):
-                return {
-                    "Status": 400,
-                    "Message": "Token unsuable. Try signing in again"
-                }, 400
             return payload['sub']
 
         except (jwt.ExpiredSignatureError, jwt.InvalidTokenError) as er:
