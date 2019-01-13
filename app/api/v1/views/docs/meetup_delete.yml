@@ -12,7 +12,7 @@ parameters:
   type: string
   required: true
 - in: path
-  name: Meetup_id
+  name: id
   type: integer
   required: true
   description: The id of the Meetup to delete.
