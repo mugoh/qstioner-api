@@ -7,6 +7,7 @@ from functools import wraps
 from flask import request
 
 from ...v1.models.users import UserModel
+from ..models.tokens import Token
 
 current_user = None
 raw_auth = None
@@ -124,6 +125,12 @@ def auth_required(f):
             return {
                 "Status": 400,
                 "Message": "Token is empty. Please provide a valid token"
+            }, 400
+
+        if Token.check_if_blacklisted(payload):
+            return {
+                "Status": 400,
+                "Message": "Token unsuable. Try signing in again"
             }, 400
 
         try:
