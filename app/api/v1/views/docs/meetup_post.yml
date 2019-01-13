@@ -21,21 +21,28 @@ parameters:
     required:
     - topic
     - location
-    optional:
-    - happeningOn
-    - tags
-    - images
     properties:
       topic:
         type: string
+        example: The ways of making Mammals happy
       location:
         type: string
+        example: pkoroco Ranch, Nyeri, Kenya
       happeningOn:
-        type: Date
-      tags:
-        type: array
+        type: string
+        example: '2019-08-04T12:00:00'
+        format: date
       images:
         type: array
+        items:
+          type: string
+        example: [file_path, file_path]
+      tags:
+        type: array
+        items:
+          type: string
+        example: [milking, domestic, mammals]
+      
 responses:
   201:
     description: Success, the Meetup has been added successfully
