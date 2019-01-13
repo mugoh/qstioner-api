@@ -20,9 +20,13 @@ parameters:
       email:
         type: string
         example: domestic@mammals.milk
+      username:
+        type: string
+        example: DomesticCow
       password:
         type: string
         example: pa55word
+
 responses:
   200:
     description: Success, login successful, access token is generated and returned in response body

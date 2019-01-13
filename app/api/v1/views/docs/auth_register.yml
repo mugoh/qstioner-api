@@ -23,7 +23,7 @@ parameters:
         example: DomesticCow
       email:
         type: string
-        example: domestic@cows.milk
+        example: domestic@mammals.milk
       password:
         type: string
         example: pa55word
