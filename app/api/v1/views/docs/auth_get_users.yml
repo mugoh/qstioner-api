@@ -1,0 +1,18 @@
+Get Registered Users
+
+This endpoint allows a registered Admin user to see all registered users.
+
+---
+tags:
+- auth
+consumes:
+- application/json
+- authorization header
+
+responses:
+  200:
+    description: Success
+  400:
+    description: Bad Request, validation check failed.
+  403:
+    description: Anauthorized request. The user does not have the priviledges to perform that request

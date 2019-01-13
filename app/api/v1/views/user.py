@@ -54,6 +54,7 @@ class UsersRegistration(Resource):
             "Data": user.dictify()
         }
 
+    @swag_from('docs/auth_get_users.yml')
     def get(self):
         return {
             "Status": 200,
