@@ -1,0 +1,33 @@
+Login User
+This endpoint allows a registered user to login.
+Both an Administrator and a non-admin user can use this endpoint
+to access protected resources.
+---
+tags:
+- auth
+- login
+consumes:
+- application/json
+parameters:
+- in: body
+  name: Login Credentials
+  description: The User credentials for login
+  schema:
+    type: object
+    required:
+    - email
+    - password
+    properties:
+      email:
+        type: string
+        default: domestic@mammals.milk
+      password:
+        type: string
+        default: pa55word
+responses:
+  200:
+    description: Success, login successful, access token is generated and returned in response body
+  400:
+    description: Bad Request, validation check failed.
+  404:
+    description: Not found, user with provided email does not exist
