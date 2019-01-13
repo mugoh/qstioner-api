@@ -17,6 +17,7 @@ class UsersRegistration(Resource):
         This resource allows a user to create a new account.
     """
 
+    @swag_from('docs/auth_register.yml')
     def post(self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
         parser.add_argument('firstname', type=verify_name)

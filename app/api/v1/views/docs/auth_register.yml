@@ -1,0 +1,53 @@
+Register User
+This endpoint allows a user to register.
+Default Registration role is non-admin.
+---
+tags:
+- auth
+consumes:
+- application/json
+parameters:
+- in: body
+  name: Registration Details
+  description: The details of the user to be registered
+  schema:
+    type: object
+    required:
+    - username
+    - email
+    - password
+    optional:
+      - firstname
+      - lastname
+      - isAdmin
+      - phonenumber
+
+    properties:
+      username:
+        type: string
+        default: DomesticCow
+      email:
+        type: string
+        default: mammals@cows.milk
+      password:
+        type: string
+        default: pa55word
+      firstname:
+        type: string
+        default: Domestic
+      lastname:
+        type: string
+        default: Cow
+      isAdmin:
+        type: boolean
+        default: false
+      phonenumber:
+        type: number
+        default: 01234567
+responses:
+  201:
+    description: Success, the user has been created
+  400:
+    description: Bad Request, validation check failed.
+  409:
+    description: User exists
