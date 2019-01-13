@@ -61,21 +61,33 @@ def current_user_only(f):
 
         # Comment out if manually testing
         # Handled by missing auth header error
-        """
+
         if not this_user:
             return {
                 "Status": 403,
                 "Message": "You need to be logged in to do that"
             }, 403
-        """
 
         try:
             uid = int(user)
             user = UserModel.get_by_id(uid)
             if user:
                 user = user.username
+            else:
+                return {
+                    "Status": 404,
+                    "Error": "User id does not exist. Provide a valid id"
+                }, 404
+
         except ValueError:
             user = user
+            if not UserModel.get_by_name(user):
+                return {
+                    "Status": 404,
+                    "Error": "Username not registered. \
+                    Provide a valid username"
+                }, 404
+
         if this_user != user:
             return {
                 "Status": 403,
