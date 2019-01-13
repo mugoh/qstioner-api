@@ -2,9 +2,9 @@
     This module contains validators for user data passed in request
     arguments.
 """
-from flask import request
+
 import re
-from functools import wraps
+import datetime
 
 name_pattern = re.compile(r'^[A-Za-z]+$')
 
@@ -22,4 +22,13 @@ def verify_name(value, item):
     elif not name_pattern.match(value):
         raise ValueError(f'Oops! {value} has NUMBERS.' +
                          f' {item} should contain letters only')
+    return value
+
+
+def validate_date(value):
+    try:
+        datetime.datetime.strptime(value, '%Y-%m-%dT%H:%M:%S')
+    except ValueError:
+        raise ValueError(
+            "Incorrect data format, should be YYYY-MM-DDTHH:MM:SS")
     return value
