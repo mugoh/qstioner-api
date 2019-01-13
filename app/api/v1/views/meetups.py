@@ -87,6 +87,8 @@ class MeetUpItem(Resource):
                 "Status": 404,
                 "Error": "Meetup non-existent"
             }, 404
+        else:
+            MeetUpModel.delete(id)
         return {
             "Status": 200,
             "Message": "MeetUp deleted"
