@@ -2,6 +2,7 @@
     This module containes all Question resources.Question.
 """
 from flask_restful import Resource, reqparse
+from flasgger import swag_from
 
 from ..models.questions import QuestionModel
 from ..models.users import UserModel
@@ -17,6 +18,7 @@ class Questions(Resource):
     """
     decorators = [auth_required]
 
+    @swag_from('docs/question_post.yml')
     def post(this_user, self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
 
