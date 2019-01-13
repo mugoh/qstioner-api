@@ -65,7 +65,7 @@ class MeetUpItem(Resource):
         and returns a matching record.
     """
     @auth_required
-    # @swag_from('docs/meetup_get.yml')
+    @swag_from('docs/meetup_get.yml')
     def get(this_user, self, id):
 
         if not MeetUpModel.get_by_id(id):

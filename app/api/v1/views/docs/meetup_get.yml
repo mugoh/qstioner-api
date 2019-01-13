@@ -1,0 +1,24 @@
+Retrieve a Meetup
+Returns a Meetup with the specified id.
+---
+tags:
+- Meetups
+parameters:
+- in: header
+  name: Authorization
+  description: The encoded token generated during user login
+    i.e (Bearer token...)
+  type: string
+  required: true
+- in: path
+  name: Meetup_id
+  type: string
+  required: true
+  description: The id of the Meetup to view.
+responses:
+  200:
+    description: Success, Meetup Retrieved
+  403:
+    description: Forbidden,Authorized request.
+  400:
+    description: Failed vaildation.
