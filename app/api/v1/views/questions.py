@@ -93,12 +93,17 @@ class Question(Resource):
             "Data": [QuestionModel.get_by_id(id)]
         }, 200
 
+    @swag_from('docs/question_delete.yml')
+    def delete(this_user, id):
+        pass
+
 
 class QuestionVote(Resource):
     """
         Upvotes or downvotes an existing question.
     """
     @auth_required
+    @swag_from('docs/question_vote.yml')
     def patch(this_user, self, id, vote):
 
         # Verify existence of given question id
