@@ -105,15 +105,7 @@ class UserLogout(Resource):
     @swag_from('docs/auth_logout.yml')
     def delete(this_user, self):
         payload = get_raw_auth()
-
-        if not Token.check_if_blacklisted(payload):
-            Token(payload)
-        else:
-            return {
-                "Status": 403,
-                "Message": f"You must be logged in to be able to log out"
-            }, 403
-
+        Token(payload)  # Blaclist current user token
         return {
             "Status": "Success",
             "Message": f"Logout {get_auth_identity()}"
