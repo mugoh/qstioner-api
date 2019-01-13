@@ -143,7 +143,7 @@ class AuthTestCases(BaseTestCase):
                                     data=user_data,
                                     content_type='application/json')
 
-        self.assertTrue(response.status_code == 400,
+        self.assertTrue(response.status_code == 403,
                         msg="Fails. Logs in user with invalid password")
 
     def test_login_with_unregistered_email(self):
@@ -155,7 +155,7 @@ class AuthTestCases(BaseTestCase):
         response = self.client.post('/api/v1/auth/login',
                                     data=user_data,
                                     content_type='application/json')
-        self.assertEqual(response.status_code, 400,
+        self.assertEqual(response.status_code, 404,
                          msg="Fails. Logs in user with unknown email")
 
     def test_logged_in_user_can_log_out(self):
