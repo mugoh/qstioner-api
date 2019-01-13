@@ -93,7 +93,7 @@ class UserLogin(Resource):
 
         return {
             "Status": 200,
-            "Data": [{"Message": f"Logged in as {args['username']}",
+            "Data": [{"Message": f"Logged in as {user.username}",
                       "token": str(user.encode_auth_token(user.username)),
                       "user": repr(user)}]
         }, 200
