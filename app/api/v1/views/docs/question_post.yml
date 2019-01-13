@@ -25,10 +25,13 @@ parameters:
     properties:
       title:
         type: string
+        example: Will there be cookies?
       body:
         type: string
+        example: This is the question body
       meetup:
         type: integer
+        example: 1
 responses:
   201:
     description: Success, Question Created to Meetup
