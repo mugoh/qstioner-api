@@ -14,13 +14,13 @@ class Meetups(Resource):
     @admin_required
     def post(this_user, self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
-        parser.add_argument('topic', type=str)
+        parser.add_argument('topic', type=str, required=True)
         parser.add_argument(
             'happeningOn',
             type=lambda t: datetime.strptime(t, '%Y-%m-%dT%H:%M:%S'),
             default=datetime.datetime.utcnow().isoformat())
         parser.add_argument('tags', type=str, action='append')
-        parser.add_argument('location', type=str)
+        parser.add_argument('location', type=str, required=True)
         parser.add_argument('images', type=str, action='append')
 
         args = parser.parse_args(strict=True)
