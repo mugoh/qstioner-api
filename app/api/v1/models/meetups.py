@@ -48,13 +48,17 @@ class MeetUpModel(AbstractModel):
         return [meetup.dictify() for meetup in meetups]
 
     @classmethod
-    def get_by_id(cls, given_id):
+    def get_by_id(cls, given_id, obj=False):
         """
             Searches and returns a meetup instance
             with an 'id' attribute matching the given id.
         """
-        that_meetup = [meetup.dictify() for meetup in meetups
-                       if getattr(meetup, 'id') == given_id]
+        if not obj:
+            that_meetup = [meetup.dictify() for meetup in meetups
+                           if getattr(meetup, 'id') == given_id]
+        else:
+            that_meetup = [meetup for meetup in meetups
+                           if getattr(meetup, 'id') == given_id]
 
         return that_meetup[0] if that_meetup else None
 

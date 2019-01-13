@@ -79,7 +79,6 @@ class MeetUpItem(Resource):
         }, 200
 
     @auth_required
-    @current_user_only
     @swag_from('docs/meetup_delete.yml')
     def delete(this_user, self, id):
         meetup = MeetUpModel.get_by_id(id)
