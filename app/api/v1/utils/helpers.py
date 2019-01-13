@@ -26,6 +26,9 @@ def verify_name(value, item):
 
 
 def validate_date(value):
+    """
+        Ensures passing of valid datetime format in date inputs
+    """
     try:
         datetime.datetime.strptime(value, '%Y-%m-%dT%H:%M:%S')
     except ValueError:
