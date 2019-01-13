@@ -5,9 +5,13 @@ This endpoint allows a registered Admin user to see all registered users.
 ---
 tags:
 - Authorization
-consumes:
-- application/json
-- authorization header
+parameters:
+- in: header
+  name: Authorization
+  description: The authorization token generated during user
+    login (Bearer + token)
+  type: string
+  required: true
 
 responses:
   200:
