@@ -4,7 +4,7 @@ This endpoint allows a registered Admin user to see all registered users.
 
 ---
 tags:
-- auth
+- Authorization
 consumes:
 - application/json
 - authorization header
