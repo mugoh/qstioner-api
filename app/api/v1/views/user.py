@@ -3,6 +3,7 @@
 """
 
 from flask_restful import Resource, reqparse, inputs
+from flasgger import swag_from
 import random
 
 from ..models.users import UserModel
@@ -61,6 +62,7 @@ class UsersRegistration(Resource):
 
 class UserLogin(Resource):
 
+    @swag_from('docs/login.yml')
     def post(self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
 
@@ -113,3 +115,14 @@ class UserLogout(Resource):
             "Status": "Success",
             "Message": f"Logout {get_auth_identity()}"
         }, 200
+
+
+USER_SCHEMA = {
+    'type': 'object',
+    'maxProperties': 3,
+    'properties': {
+        'email': {'type': 'string'},
+        'username': {'type': 'string'},
+        'password': {'type': 'string'}
+    },
+    'required': ['email', 'password']}
