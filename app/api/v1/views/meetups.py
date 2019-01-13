@@ -50,7 +50,7 @@ class MeetUp(Resource):
         This resource fetches all existing meetup records
     """
     @auth_required
-    # @swag_from('docs/meetups_get.yml')
+    @swag_from('docs/meetups_get.yml')
     def get(this_user, self):
 
         return {
