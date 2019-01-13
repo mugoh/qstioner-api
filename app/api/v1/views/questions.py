@@ -77,6 +77,7 @@ class Question(Resource):
     """
     decorators = [auth_required]
 
+    @swag_from('docs/question_get.yml')
     def get(this_user, self, id):
         """
             Retrieves an individual question
