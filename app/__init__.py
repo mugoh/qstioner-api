@@ -16,11 +16,9 @@ def create_app(config_setting):
 
     CORS(app)
 
-    description = """
-                    Questioner is an API application allowing a user to
-                    register, login, ask questions to meetups and
-                    vote on questions posted to present meetups.
-                """
+    description = "Questioner is an API application allowing a user to\
+                    register, login, ask questions to meetups and\
+                    vote on questions posted to present meetups."
 
     template = {
         "swagger": "3.0",
