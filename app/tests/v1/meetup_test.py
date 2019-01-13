@@ -87,10 +87,10 @@ class MeetUpTests(BaseTestCase):
                                    happeningOn='2019-09-09T20:00:00'
                                )),
                                headers=self.admin_auth)
-        self.assertEqual(res.status_code, 201)
+        self.assertEqual(res.status_code, 409)
 
     def test_delete_missing_meetup(self):
-        res = self.client.delete('api/v1/meetups/1',
+        res = self.client.delete('api/v1/meetups/6',
                                  content_type='application/json',
                                  headers=self.admin_auth)
         self.assertEqual(res.status_code, 404)
@@ -110,7 +110,7 @@ class MeetUpTests(BaseTestCase):
         res = self.client.delete('api/v1/meetups/1',
                                  content_type='application/json',
                                  headers=self.admin_auth)
-        self.assertEqual(res.get_json(), 200)
+        self.assertEqual(res.status_code, 200)
 
     def test_create_meetup_with_invalid_date(self):
         res = self.client.post('api/v1/meetups',

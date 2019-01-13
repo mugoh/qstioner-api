@@ -48,25 +48,22 @@ class MeetUpModel(AbstractModel):
         return [meetup.dictify() for meetup in meetups]
 
     @classmethod
-    def get_by_id(cls, given_id, obj=False):
+    def get_by_id(cls, given_id):
         """
             Searches and returns a meetup instance
             with an 'id' attribute matching the given id.
         """
-        if not obj:
-            that_meetup = [meetup.dictify() for meetup in meetups
-                           if getattr(meetup, 'id') == given_id]
-        else:
-            that_meetup = [meetup for meetup in meetups
-                           if getattr(meetup, 'id') == given_id]
+        that_meetup = [meetup.dictify() for meetup in meetups
+                       if getattr(meetup, 'id') == given_id]
 
         return that_meetup[0] if that_meetup else None
 
-    def delete(self):
+    @classmethod
+    def delete(self, id):
         """
             Permanently removes a meetup from the records.
         """
-        meetups.remove([x for x in meetups if x == self][0])
+        meetups.remove([x for x in meetups if getattr(x, 'id') == id][0])
 
     @classmethod
     def verify_unique(cls, meetup_object):

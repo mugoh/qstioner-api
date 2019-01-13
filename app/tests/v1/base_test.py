@@ -51,6 +51,16 @@ class BaseTestCase(unittest.TestCase):
         userH = user_res.get_json().get('Data')[0].get('token')
         self.admin_auth = {"Authorization": "Bearer " + userH.split("'")[1]}
 
+        self.client.post('api/v1/meetups',
+                         content_type='application/json',
+                         data=json.dumps(dict(
+                             topic="Meats can Happen",
+                             location="Over Here",
+                             tags=['jump', 'eat', 'wake'],
+                             happeningOn='2019-09-09T20:00:00'
+                         )),
+                         headers=self.admin_auth)
+
     def post(self, path, data=None, headers=None):
 
         if not headers:

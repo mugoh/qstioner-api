@@ -88,11 +88,6 @@ class Rsvp(Resource):
 
         query_parameter = next((item for item in [id, username]
                                 if item is not None), None)
-        if not query_parameter:
-            return {
-                "Status": 400,
-                "Error": "Provide a valid username or user id"
-            }, 400
 
         # Get user id
         # Rsvp stores user by id

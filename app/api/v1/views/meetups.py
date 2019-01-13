@@ -81,14 +81,14 @@ class MeetUpItem(Resource):
     @auth_required
     @swag_from('docs/meetup_delete.yml')
     def delete(this_user, self, id):
-        meetup = MeetUpModel.get_by_id(id, obj=True)
+        meetup = MeetUpModel.get_by_id(id)
         if not meetup:
             return {
                 "Status": 404,
                 "Error": "Meetup non-existent"
             }, 404
         else:
-            meetup.delete()
+            MeetUpModel.delete(id)
         return {
             "Status": 200,
             "Message": "MeetUp deleted"
