@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from flasgger import swag_from
 import datetime
 
 from ..models.meetups import MeetUpModel
@@ -12,6 +13,7 @@ class Meetups(Resource):
     """
     @auth_required
     @admin_required
+    @swag_from('docs/meetup_post.yml')
     def post(this_user, self):
         parser = reqparse.RequestParser(trim=True, bundle_errors=True)
         parser.add_argument('topic', type=str, required=True)
@@ -48,6 +50,7 @@ class MeetUp(Resource):
         This resource fetches all existing meetup records
     """
     @auth_required
+    # @swag_from('docs/meetups_get.yml')
     def get(this_user, self):
 
         return {
@@ -62,6 +65,7 @@ class MeetUpItem(Resource):
         and returns a matching record.
     """
     @auth_required
+    # @swag_from('docs/meetup_get.yml')
     def get(this_user, self, id):
 
         if not MeetUpModel.get_by_id(id):
