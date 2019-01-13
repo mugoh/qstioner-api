@@ -5,7 +5,6 @@ to access protected resources.
 ---
 tags:
 - auth
-- login
 consumes:
 - application/json
 parameters:
@@ -30,4 +29,6 @@ responses:
   400:
     description: Bad Request, validation check failed.
   404:
-    description: Not found, user with provided email does not exist
+    description: Not found, user with provided is not registered
+  403:
+    description: Wrong Password
