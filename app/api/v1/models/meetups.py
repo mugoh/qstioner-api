@@ -58,6 +58,12 @@ class MeetUpModel(AbstractModel):
 
         return that_meetup[0] if that_meetup else None
 
+    def delete(self):
+        """
+            Permanently removes a meetup from the records.
+        """
+        meetups.remove([x for x in meetups if x == self][0])
+
     @classmethod
     def verify_unique(cls, meetup_object):
         """
