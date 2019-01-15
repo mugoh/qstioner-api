@@ -2,8 +2,7 @@
 [![Build Status](https://travis-ci.org/hogum/qstioner-api.png?branch=develop)](https://travis-ci.org/hogum/qstioner-api) [![Coverage Status](https://coveralls.io/repos/github/hogum/qstioner-api/badge.svg?branch=ch-ci-badges-163075084)](https://coveralls.io/github/hogum/qstioner-api?branch=ch-ci-badges-163075084)
 [![Maintainability](https://api.codeclimate.com/v1/badges/0a723df98c0d910d94bb/maintainability)](https://codeclimate.com/github/hogum/qstioner-api/maintainability)
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/faa1bb2518cd81a3e91d)
-
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/4e960f4340da75ae0cff)
 # qstioner-api
 Questioner api is an api version 1 of the qstioner web application. It allows the user to send htttp requests to application and persists in data structures.
 Questioner is a platform where human beings can ask questions about meetups and vote present questions.
